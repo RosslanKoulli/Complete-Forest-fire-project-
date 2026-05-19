@@ -7,14 +7,20 @@
  *   1. User opens the page; default Leaflet map centred on the Mediterranean.
  *   2. User draws a rectangle with the rectangle tool (top-left of the map).
  *   3. We tessellate the rectangle with H3 hexagons at the configured resolution.
- *   4. Each hex's centroid is sent to /api/hexmap/predict_region.
- *   5. The response is per-hex fire probabilities; we colour each hex
- *      polygon by its risk band (low/medium/high).
+ *   4. Each hex's centroid is sent to /api/hexmap/predict_region_stream over a
+ *      WebSocket so we can render a real progress bar and cancel mid-flight.
+ *   5. As predictions stream back, each hex polygon is added to the map
+ *      immediately - the user sees the rectangle fill in.
  *   6. User clicks any coloured hex to ignite a fire there.
  *   7. We open a WebSocket to /api/hexmap/simulate_stream and feed it the
  *      hexes, neighbours, ignition point, and spread parameters.
  *   8. As frames stream back, we recolour each hex by its current state
  *      (unburnt / burning / burnt).
+ *
+ * Cancellation: drawing a new rectangle or clicking Clear Selection while a
+ * prediction is in progress closes the WebSocket. The backend stops on the
+ * next hex boundary - no more wasted weather lookups, no late-arriving
+ * hexes appearing in a cleared selection.
  *
  * Three external libraries are loaded as globals via the HTML page:
  *   - L (Leaflet): the mapping library
@@ -78,7 +84,7 @@ const state = {
 
     // Currently rendered hexes: Map of h3_index -> {polygon, prediction}
     // polygon is the Leaflet polygon object; prediction is the per-hex
-    // result from /api/hexmap/predict_region.
+    // result from /api/hexmap/predict_region_stream.
     hexes: new Map(),
 
     // Neighbour graph for the current hex set: h3_index -> [neighbour h3 indices]
@@ -95,6 +101,17 @@ const state = {
     // Whether a prediction request is currently in flight (used to
     // disable the rectangle tool to prevent overlapping requests)
     predictionInFlight: false,
+
+    // Active prediction WebSocket. Held so Clear Selection / new
+    // rectangle can close it and stop the backend mid-flight rather
+    // than letting the prediction continue silently in the background.
+    predictionSocket: null,
+
+    // Set true when the user explicitly cancels (Clear Selection,
+    // Cancel button, new rectangle). The message handler checks this
+    // before applying late-arriving frames - belt and braces, since
+    // we also close the socket which stops the backend.
+    predictionAborted: false,
 };
 
 
@@ -172,8 +189,9 @@ const drawControl = new L.Control.Draw({
 map.addControl(drawControl);
 
 map.on(L.Draw.Event.CREATED, async (event) => {
-    // User finished drawing a rectangle. Clear any previous selection,
-    // then run the prediction flow on the new one.
+    // User finished drawing a rectangle. runPredictionFlow handles
+    // cancelling any in-flight prediction first, so we don't need to
+    // do that here - just kick off the new flow.
     drawnItems.clearLayers();
     drawnItems.addLayer(event.layer);
     state.selectedBounds = event.layer.getBounds();
@@ -222,16 +240,22 @@ function generateHexagons(bounds, resolution) {
 
 
 // ============================================================
-// Prediction flow
+// Prediction flow (streaming WebSocket)
 // ============================================================
 //
-// Called when the user finishes drawing a rectangle. Generates hexes,
-// posts them to the API, then renders the polygons on the map.
+// Called when the user finishes drawing a rectangle. Generates hexes
+// client-side, opens a WebSocket to the streaming endpoint, and renders
+// each hex as the backend finishes its prediction.
+//
+// The flow returns a Promise that resolves when the stream completes
+// OR is cancelled, so the L.Draw.Event.CREATED `await` resolves cleanly
+// in both cases.
 
 async function runPredictionFlow() {
-    if (state.predictionInFlight) {
-        return;   // ignore overlapping requests
-    }
+    // Cancel any prior in-flight prediction. This closes the active
+    // socket, hides the progress UI, and sets predictionAborted so any
+    // late-arriving messages get ignored.
+    closePrediction();
 
     // Stop any in-progress simulation; the new selection invalidates it.
     closeSimulation();
@@ -258,9 +282,6 @@ async function runPredictionFlow() {
         return;
     }
 
-    showStatus(`Computing predictions for ${cells.length} hexagons...`, 'info');
-    state.predictionInFlight = true;
-
     // Build the request payload. Each hex needs h3_index plus its
     // centroid (lat, lon) for the weather lookup. Region is detected
     // per-hex from the location rather than from a single user-picked
@@ -276,113 +297,247 @@ async function runPredictionFlow() {
         };
     });
 
-    let response;
-    try {
-        response = await fetch('/api/hexmap/predict_region', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
+    // The accumulator collects predictions as they stream in so that
+    // the post-completion summary (reliability badge, source breakdown)
+    // can be computed once at the end. The hex polygons are already
+    // rendered incrementally onto the map; this is just for the
+    // aggregate stats.
+    const collected = [];
+    const sourceStats = { total_api_calls: 0, cache_hits: 0, fallback_count: 0 };
+
+    // Open the streaming WebSocket. Same host as the page, upgraded to
+    // wss when the page is served over HTTPS.
+    const proto = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+    const wsUrl = `${proto}//${window.location.host}/api/hexmap/predict_region_stream`;
+
+    return new Promise((resolve) => {
+        let ws;
+        try {
+            ws = new WebSocket(wsUrl);
+        } catch (err) {
+            showStatus(`Could not open prediction stream: ${err.message}`, 'error');
+            resolve();
+            return;
+        }
+
+        state.predictionSocket = ws;
+        state.predictionInFlight = true;
+        state.predictionAborted = false;
+
+        // Show the progress UI immediately - the user gets feedback
+        // even before the first hex completes (during connection +
+        // request validation on the backend).
+        showPredictionProgress(0, cells.length, 'Connecting...');
+
+        // Hide the regular status message; we'll show it again on done.
+        $('#status-message').style.display = 'none';
+
+        ws.onopen = () => {
+            if (state.predictionAborted) {
+                try { ws.close(); } catch {}
+                return;
+            }
+            ws.send(JSON.stringify({
                 hexes: hexPayload,
                 region: state.region,
                 // Time-window fields: only included when the user has
                 // enabled the time window. Sending nulls keeps the
-                // backend's existing behaviour (weather ending today).
+                // backend's default behaviour (weather ending today).
                 start_date: state.timeWindowEnabled ? state.windowStartDate : null,
                 duration_days: state.timeWindowEnabled ? state.durationDays : null,
-            }),
-        });
-    } catch (err) {
-        showStatus(`Network error contacting the API: ${err.message}`, 'error');
-        state.predictionInFlight = false;
-        return;
-    }
+            }));
+            showPredictionProgress(0, cells.length, 'Computing predictions...');
+        };
 
-    if (!response.ok) {
-        const detail = await response.text();
-        showStatus(`Prediction failed (HTTP ${response.status}): ${detail}`, 'error');
-        state.predictionInFlight = false;
-        return;
-    }
+        ws.onmessage = (event) => {
+            // Belt-and-braces: if the user cancelled while a message
+            // was in transit, drop it on the floor. The socket close
+            // is the primary mechanism; this guards against the brief
+            // window between cancel and close completing.
+            if (state.predictionAborted) return;
 
-    const data = await response.json();
+            let data;
+            try {
+                data = JSON.parse(event.data);
+            } catch (e) {
+                return;
+            }
+
+            if (data.type === 'started') {
+                showPredictionProgress(0, data.total, 'Computing predictions...');
+                return;
+            }
+
+            if (data.type === 'progress') {
+                showPredictionProgress(data.completed, data.total, 'Computing predictions...');
+                // Render this hex's polygon immediately so the user
+                // sees the rectangle fill in as the stream progresses.
+                // null prediction = the hex failed at FWI/transform/
+                // predict; skip silently (same behaviour as the POST
+                // endpoint which drops failed hexes).
+                if (data.prediction) {
+                    renderHexPolygon(data.prediction);
+                    collected.push(data.prediction);
+                }
+                return;
+            }
+
+            if (data.type === 'done') {
+                sourceStats.total_api_calls = data.total_api_calls || 0;
+                sourceStats.cache_hits = data.cache_hits || 0;
+                sourceStats.fallback_count = data.fallback_count || 0;
+                finalizePredictionFlow(collected, sourceStats);
+                hidePredictionProgress();
+                state.predictionInFlight = false;
+                state.predictionSocket = null;
+                try { ws.close(); } catch {}
+                resolve();
+                return;
+            }
+
+            if (data.type === 'error') {
+                showStatus(`Prediction failed: ${data.error}`, 'error');
+                hidePredictionProgress();
+                state.predictionInFlight = false;
+                state.predictionSocket = null;
+                try { ws.close(); } catch {}
+                resolve();
+                return;
+            }
+        };
+
+        ws.onerror = () => {
+            // Only treat as an error if we weren't expecting the
+            // socket to close (i.e. the user didn't cancel). Otherwise
+            // a user-initiated close shows up here as an error event
+            // followed by a close event, which would surface a spurious
+            // error message.
+            if (!state.predictionAborted) {
+                showStatus('Network error during prediction.', 'error');
+            }
+            hidePredictionProgress();
+            state.predictionInFlight = false;
+            if (state.predictionSocket === ws) {
+                state.predictionSocket = null;
+            }
+            resolve();
+        };
+
+        ws.onclose = () => {
+            // onclose always fires - either after 'done', after an error,
+            // or after the user cancelled. The first two paths already
+            // resolved; this branch handles the cancel case (and any
+            // unexpected disconnect).
+            if (state.predictionSocket === ws) {
+                state.predictionSocket = null;
+            }
+            if (state.predictionInFlight) {
+                state.predictionInFlight = false;
+                hidePredictionProgress();
+            }
+            resolve();
+        };
+    });
+}
+
+
+// Cancel any in-flight prediction. Safe to call when there's nothing in
+// flight - it's a no-op in that case. Used by Clear Selection, the
+// Cancel button in the progress UI, and beforeunload.
+function closePrediction() {
+    if (state.predictionSocket) {
+        state.predictionAborted = true;
+        try {
+            state.predictionSocket.close();
+        } catch (e) {
+            // Closing an already-closing socket throws on some browsers;
+            // the underlying connection is dead either way.
+        }
+        state.predictionSocket = null;
+    }
     state.predictionInFlight = false;
+    hidePredictionProgress();
+}
 
-    // Render each prediction as a coloured hex polygon.
-    for (const pred of data.predictions) {
-        renderHexPolygon(pred);
-    }
 
-    // Build the neighbour graph for the simulation step. We compute it
-    // here, after we have all the predicted hexes, so that the simulation
-    // doesn't have to re-derive it.
+// After all hex predictions have streamed in, compute the aggregate
+// post-processing: neighbour graph, stats strip, reliability badge,
+// dim mask, and the final status line summarising the run.
+function finalizePredictionFlow(predictions, sourceStats) {
+    // Build the neighbour graph now that all hexes are in state.hexes
     buildNeighbourGraph();
 
-    // Update the stats strip
     showStats({
-        hexCount: data.predictions.length,
+        hexCount: predictions.length,
         step: 0,
         burning: 0,
         burnt: 0,
         burntPct: 0,
     });
 
-    // Compute reliability summary across the selection and surface it
-    // as a badge over the rectangle. Per-hex reliability still appears
-    // in tooltips; this is the at-a-glance view.
-    //
-    // No-fuel hexes are excluded from this average. They score 100%
-    // domain confidence (the model didn't run, so there's no
-    // extrapolation), but including that in the average would inflate
-    // it misleadingly - the user wants to know "how reliable are the
-    // ACTUAL fire predictions in my selection", not "how confident am
-    // I that water doesn't burn".
-    const predictedHexes = data.predictions.filter(p => p.risk_band !== 'no_fuel');
-    const reliabilities = predictedHexes.map(p => p.overall_reliability);
+    // No-fuel hexes are excluded from the reliability average. They
+    // score 100% domain confidence (the model didn't run, so there's
+    // no extrapolation), but including that in the average would
+    // inflate it misleadingly - the user wants to know "how reliable
+    // are the actual fire predictions in my selection", not "how
+    // confident am I that water doesn't burn".
+    const predicted = predictions.filter(p => p.risk_band !== 'no_fuel');
+    const reliabilities = predicted.map(p => p.overall_reliability);
     const avgReliability = reliabilities.length
         ? reliabilities.reduce((a, b) => a + b, 0) / reliabilities.length
         : 0;
     const lowCount = reliabilities.filter(r => r < 40).length;
-    showConfidenceBadge(avgReliability, predictedHexes.length, lowCount);
+    showConfidenceBadge(avgReliability, predicted.length, lowCount);
 
-    // If the user has the basemap-dim toggle enabled, redraw the mask
-    // around the new selection.
     updateDimMask();
 
-    const sourceSummary = describeSources(data);
+    // Status line with the same source-summary format as before
+    const parts = [];
+    if (sourceStats.total_api_calls > 0) parts.push(`${sourceStats.total_api_calls} live weather lookups`);
+    if (sourceStats.cache_hits > 0) parts.push(`${sourceStats.cache_hits} cache hits`);
+    if (sourceStats.fallback_count > 0) parts.push(`${sourceStats.fallback_count} fallback values`);
+
+    const noFuelCount = predictions.length - predicted.length;
+    if (noFuelCount > 0) {
+        parts.push(`${noFuelCount} no-fuel hexes`);
+    }
+    if (predicted.length > 0) {
+        parts.push(`average reliability ${avgReliability.toFixed(0)}%`);
+        if (lowCount > 0) {
+            parts.push(`${lowCount} hexes flagged as out-of-distribution`);
+        }
+    }
+    const sourceSummary = parts.length ? '(' + parts.join(', ') + ').' : '';
+
     showStatus(
-        `Predicted ${data.predictions.length} hexagons. ${sourceSummary} Click any hexagon to start a fire there.`,
+        `Predicted ${predictions.length} hexagons. ${sourceSummary} Click any hexagon to start a fire there.`,
         'success'
     );
 }
 
 
-function describeSources(data) {
-    const parts = [];
-    if (data.total_api_calls > 0) parts.push(`${data.total_api_calls} live weather lookups`);
-    if (data.cache_hits > 0) parts.push(`${data.cache_hits} cache hits`);
-    if (data.fallback_count > 0) parts.push(`${data.fallback_count} fallback values`);
+// ============================================================
+// Progress UI helpers
+// ============================================================
 
-    // Same filtering as the badge: no-fuel hexes don't represent
-    // model predictions, so they shouldn't count toward the average
-    // reliability or the out-of-distribution flag count.
-    if (data.predictions && data.predictions.length > 0) {
-        const predicted = data.predictions.filter(p => p.risk_band !== 'no_fuel');
-        const noFuelCount = data.predictions.length - predicted.length;
-        if (noFuelCount > 0) {
-            parts.push(`${noFuelCount} no-fuel hexes`);
-        }
-        if (predicted.length > 0) {
-            const reliabilities = predicted.map(p => p.overall_reliability);
-            const avgReliability = reliabilities.reduce((a, b) => a + b, 0) / reliabilities.length;
-            const lowCount = reliabilities.filter(r => r < 40).length;
-            parts.push(`average reliability ${avgReliability.toFixed(0)}%`);
-            if (lowCount > 0) {
-                parts.push(`${lowCount} hexes flagged as out-of-distribution`);
-            }
-        }
-    }
+function showPredictionProgress(completed, total, label) {
+    const wrap = $('#prediction-progress');
+    if (!wrap) return;
+    wrap.style.display = 'block';
 
-    return parts.length ? '(' + parts.join(', ') + ').' : '';
+    const fill = $('#prediction-progress-fill');
+    const text = $('#prediction-progress-text');
+    const labelEl = $('#prediction-progress-label');
+
+    const pct = total > 0 ? (completed / total) * 100 : 0;
+    if (fill) fill.style.width = `${pct}%`;
+    if (text) text.textContent = `${completed} / ${total} (${Math.round(pct)}%)`;
+    if (labelEl && label) labelEl.textContent = label;
+}
+
+function hidePredictionProgress() {
+    const wrap = $('#prediction-progress');
+    if (wrap) wrap.style.display = 'none';
 }
 
 
@@ -798,6 +953,11 @@ function buildNeighbourGraph() {
 // ============================================================
 
 function igniteHex(h3Index) {
+    if (state.predictionInFlight) {
+        showStatus('Predictions are still streaming in. Wait for them to finish before igniting.', 'warn');
+        return;
+    }
+
     if (state.simulationSocket) {
         // Already running; user must reset first
         showStatus('A simulation is already running. Click "Stop simulation" first.', 'warn');
@@ -1236,8 +1396,13 @@ function wireControls() {
         }
     });
 
-    // Reset selection
+    // Reset selection. This is the "Clear Selection" button. Critical
+    // behaviour here: it must cancel any in-flight prediction so that
+    // late-arriving hexes don't repopulate the cleared map. closePrediction
+    // closes the WebSocket, which makes the backend stop processing
+    // further hexes too.
     $('#reset-btn').addEventListener('click', () => {
+        closePrediction();
         drawnItems.clearLayers();
         state.selectedBounds = null;
         clearHexes();
@@ -1274,6 +1439,22 @@ function wireControls() {
         $('#clear-burnt-btn').disabled = true;
         showStatus('Burnt areas cleared. Click any hex to ignite again.', 'info');
     });
+
+    // Cancel button inside the progress card. Closes the prediction
+    // socket, which stops the backend on the next hex boundary, and
+    // clears whatever's been rendered so far - same end state as
+    // pressing Clear Selection mid-flight.
+    const cancelBtn = $('#cancel-prediction-btn');
+    if (cancelBtn) {
+        cancelBtn.addEventListener('click', () => {
+            closePrediction();
+            drawnItems.clearLayers();
+            state.selectedBounds = null;
+            clearHexes();
+            updateDimMask();
+            showStatus('Prediction cancelled.', 'info');
+        });
+    }
 
     // Basemap dimming toggle. When checked, darken the world outside
     // the current selection.
@@ -1460,7 +1641,9 @@ wireControls();
 loadKoppenZones();
 
 
-// Cleanup on page unload
+// Cleanup on page unload. Close both sockets so the backend isn't
+// left processing hexes for a page that's been navigated away from.
 window.addEventListener('beforeunload', () => {
+    closePrediction();
     closeSimulation();
 });

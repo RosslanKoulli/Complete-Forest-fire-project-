@@ -173,6 +173,88 @@
             height: 14px;
             border-radius: 3px;
         }
+
+        /*
+            Prediction progress card. Shown while a /predict_region_stream
+            WebSocket is active; hidden when idle. The track-and-fill
+            pattern lets us drive width from JS with a CSS transition for
+            smooth animation between the (potentially bursty) progress
+            messages from the backend.
+
+            The card mirrors the other status cards stylistically (same
+            border, padding, backdrop) so it doesn't visually compete
+            with the rest of the map stage.
+        */
+        #prediction-progress {
+            transition: opacity 150ms ease-out;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: var(--space-3);
+            margin-bottom: var(--space-2);
+        }
+
+        .progress-header-left {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            font-size: 12px;
+            color: var(--text-secondary);
+            min-width: 0;     /* let the label truncate if cramped */
+        }
+
+        .progress-header-right {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            flex-shrink: 0;
+        }
+
+        .progress-track {
+            height: 4px;
+            background-color: var(--bg-elevated-2);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background-color: var(--fire-500);
+            background-image: linear-gradient(
+                to right,
+                var(--fire-600),
+                var(--fire-400)
+            );
+            border-radius: 2px;
+            width: 0%;
+            transition: width 200ms ease-out;
+        }
+
+        .progress-count {
+            font-family: 'JetBrains Mono', monospace;
+            font-variant-numeric: tabular-nums;
+            font-size: 12px;
+            color: var(--text-primary);
+        }
+
+        .btn-progress-cancel {
+            height: 24px;
+            padding: 0 var(--space-3);
+            font-size: 11px;
+            border-radius: var(--radius-sm);
+            background-color: var(--bg-elevated-2);
+            color: var(--text-secondary);
+            box-shadow: 0 0 0 1px var(--border-default) inset;
+            transition: all var(--transition-fast);
+        }
+
+        .btn-progress-cancel:hover {
+            background-color: var(--border-default);
+            color: var(--text-primary);
+        }
     </style>
 </head>
 <body>
@@ -434,6 +516,33 @@
             <!-- Map stage -->
             <div class="map-stage">
                 <div id="leaflet-map"></div>
+
+                <!--
+                    Prediction progress card. Shown while the
+                    /predict_region_stream WebSocket is active; hidden
+                    when idle. The fill width is driven by JS based on
+                    the `completed / total` from each progress frame.
+                    The Cancel button closes the socket, which makes
+                    the backend stop processing further hexes and
+                    clears the in-progress selection.
+                -->
+                <div id="prediction-progress" class="card" style="display: none;">
+                    <div class="card-body" style="padding: var(--space-3) var(--space-5);">
+                        <div class="progress-header">
+                            <div class="progress-header-left">
+                                <span class="loading-spinner"></span>
+                                <span id="prediction-progress-label">Computing predictions...</span>
+                            </div>
+                            <div class="progress-header-right">
+                                <span class="progress-count" id="prediction-progress-text">0 / 0</span>
+                                <button type="button" class="btn-progress-cancel" id="cancel-prediction-btn">Cancel</button>
+                            </div>
+                        </div>
+                        <div class="progress-track">
+                            <div id="prediction-progress-fill" class="progress-fill"></div>
+                        </div>
+                    </div>
+                </div>
 
                 <!-- Status messages and stats -->
                 <div id="status-message" class="card" style="display: none;">
