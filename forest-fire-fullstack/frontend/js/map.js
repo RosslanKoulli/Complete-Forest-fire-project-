@@ -752,9 +752,9 @@ const LABEL_MIN_ZOOM = 8;
 // numbers feeling consistent. 1.5 pixels per zoom is enough that the
 // user feels the labels respond to zoom, but small enough that they
 // never explode in sisze.
-const LABEL_MIN_PX = 1;
-const LABEL_MAX_PX = 5;
-const LABEL_GROWTH_PX_PER_ZOOM = 0.2;
+const LABEL_MIN_PX = 12;
+const LABEL_MAX_PX = 16;
+const LABEL_GROWTH_PX_PER_ZOOM = 1.5;
 
 
 function updateHexLabelScale() {
