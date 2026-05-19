@@ -8,9 +8,9 @@ This README covers running the project on your own machine for development (Wind
 
 ## What you're looking at
 
-- **Backend** — FastAPI + uvicorn. Loads three trained ML models at startup (Random Forest, XGBoost, MLP), fetches live weather from Open-Meteo per hex, computes the FWI fire-weather indices, returns per-hex ignition probabilities, and streams a cellular-automaton fire spread over WebSocket.
-- **Frontend** — Vanilla JavaScript, no build step. Leaflet for the map, leaflet-draw for rectangle selection, H3-js for the hexagonal grid. Loads in any modern browser straight from the FastAPI static-file mount.
-- **ML pipeline** — Lives in a separate `forest-fire-prediction/` directory next to this one. Training is done there; this app only consumes the saved `.pkl` files.
+- **Backend:** FastAPI + uvicorn. Loads three trained ML models at startup (Random Forest, XGBoost, MLP), fetches live weather from Open-Meteo per hex, computes the FWI fire-weather indices, returns per-hex ignition probabilities, and streams a cellular-automaton fire spread over WebSocket.
+- **Frontend:** Vanilla JavaScript, no build step. Leaflet for the map, leaflet-draw for rectangle selection, H3-js for the hexagonal grid. Loads in any modern browser straight from the FastAPI static-file mount.
+- **ML pipeline:** Lives in a separate `forest-fire-prediction/` directory next to this one. Training is done there; this app only consumes the saved `.pkl` files.
 
 Repo layout (relevant bits):
 
@@ -40,9 +40,9 @@ The ML training project itself (datasets, training scripts, saved models) sits i
 
 ---
 
-## Quick start — Windows
+## Quick start: Windows
 
-These steps assume Python 3.10–3.12 already installed and on PATH. Tested with 3.12.
+These steps assume Python 3.10-3.12 already installed and on PATH. Tested with 3.12.
 
 ### 1. Open PowerShell in the project folder
 
@@ -92,11 +92,11 @@ INFO:     Uvicorn running on http://127.0.0.1:8000
 
 ### 5. Open it
 
-Browse to `http://127.0.0.1:8000` — the landing page loads, click through to the map, draw a rectangle anywhere in the Mediterranean.
+Browse to `http://127.0.0.1:8000`. The landing page loads, click through to the map, draw a rectangle anywhere in the Mediterranean.
 
 ---
 
-## Quick start — Linux
+## Quick start: Linux
 
 This is also what you'd run on the production server. Same workflow as Windows, with one or two distro-specific quirks.
 
@@ -107,7 +107,7 @@ sudo apt update
 sudo apt install -y python3 python3-pip python3-venv git
 ```
 
-(Use `dnf` on Fedora/RHEL, `pacman` on Arch — adjust to taste.)
+(Use `dnf` on Fedora/RHEL, `pacman` on Arch; adjust to taste.)
 
 ### 2. Get the code on the box
 
@@ -244,7 +244,7 @@ Now `http://your-server-ip/` works on port 80, and you can close port 8000 to th
 sudo ufw deny 8000/tcp
 ```
 
-The `Upgrade`/`Connection` headers and `proxy_read_timeout 600s` are essential — without them, the WebSocket fire-spread simulation and the prediction-progress stream will drop connection mid-flight.
+The `Upgrade`/`Connection` headers and `proxy_read_timeout 600s` are essential. Without them, the WebSocket fire-spread simulation and the prediction-progress stream will drop connection mid-flight.
 
 ### 4. (Optional) HTTPS
 
@@ -265,10 +265,10 @@ The `frontend/data/mediterranean_climate.geojson` file that ships with the proje
 
 ### 1. Download one of the standard rasters
 
-- **Beck et al. (2018)** — 1 km resolution, present-day, recommended.
+- **Beck et al. (2018):** 1 km resolution, present-day, recommended.
   https://www.gloh2o.org/koppen/ → `Beck_KG_V1_present_0p0083.tif`
 
-- **Kottek et al. (2006)** — 0.5° (~50 km), matches the canonical paper.
+- **Kottek et al. (2006):** 0.5° (~50 km), matches the canonical paper.
   http://koeppen-geiger.vu-wien.ac.at/present.htm → `KG_World_v1.1.txt`
 
 ### 2. Run the converter
@@ -279,7 +279,7 @@ python scripts/build_koppen_geojson.py <raster-file> \
     --output frontend/data/mediterranean_climate.geojson
 ```
 
-The Beck dataset uses class codes 8/9/10 for Csa/Csb/Csc (script defaults). The Kottek dataset numbering varies — pass `--csa-code N --csb-code N --csc-code N` to override.
+The Beck dataset uses class codes 8/9/10 for Csa/Csb/Csc (script defaults). The Kottek dataset numbering varies, so pass `--csa-code N --csb-code N --csc-code N` to override.
 
 Restart the backend (or hard-refresh the browser if running with `--reload`) and the new overlay appears with the correct boundaries.
 
@@ -300,13 +300,13 @@ pip uninstall -y numpy
 pip install "numpy<2"
 ```
 
-Run `pip uninstall numpy` repeatedly until pip says "not installed" — Python can install the same package in multiple locations and each `uninstall` only finds one copy.
+Run `pip uninstall numpy` repeatedly until pip says "not installed". Python can install the same package in multiple locations and each `uninstall` only finds one copy.
 
 ### `ssh: Permission denied`
 
 The username, password, or the auth method is wrong. Linux usernames are case-sensitive and almost always lowercase. If your friend handed you a six-word hyphenated phrase like `morbidly-walk-impure-disrupt-gore-last`, double-check it's an SSH password rather than a Tailscale auth key (Tailscale uses that exact format).
 
-After three failed attempts the server will close the connection. Wait a minute before retrying — `fail2ban` may also rate-limit your IP for several minutes.
+After three failed attempts the server will close the connection. Wait a minute before retrying, since `fail2ban` may also rate-limit your IP for several minutes.
 
 ### Backend starts but the map page returns 404
 
@@ -334,7 +334,7 @@ When running the converter script, you're writing as a different user than the o
 
 ### Hex labels overlap when zoomed out
 
-Fixed in the latest map.js — labels hide entirely below zoom level 8 and are font-capped at 16px so they can't outgrow their hex. If you still see overlap, you're on an older `map.js`; replace it.
+Fixed in the latest map.js. Labels hide entirely below zoom level 8 and are font-capped at 16px so they can't outgrow their hex. If you still see overlap, you're on an older `map.js`; replace it.
 
 ---
 
@@ -343,4 +343,4 @@ Fixed in the latest map.js — labels hide entirely below zoom level 8 and are f
 - CI601 Individual Project, University of Brighton, 2025-2026
 - v1.0: full-stack iteration (FastAPI + vanilla JS), replacing an earlier Streamlit prototype
 - Scope: Mediterranean climate region (Köppen Csa, Csb, Csc)
-- Not an operational forecasting service — see the `/about` page for the full scope statement
+- Not an operational forecasting service. See the `/about` page for the full scope statement
