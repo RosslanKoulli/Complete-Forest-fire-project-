@@ -109,10 +109,18 @@
             stroke so it stays legible on top of any of the four fill
             colours. Pointer events disabled so it doesn't intercept
             clicks meant for the hex underneath.
+
+            The font-size is driven by the --hex-label-size CSS variable
+            set on the map container by map.js's updateHexLabelScale().
+            This means labels stay proportional to the hex's on-screen
+            size as the user zooms in and out, rather than staying a
+            fixed 11px and looking comically large at low zoom or tiny
+            at high zoom. Fallback to 11px if the variable isn't set
+            for any reason.
         */
         .hex-label {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 11px;
+            font-size: var(--hex-label-size, 11px);
             font-weight: 600;
             color: #ffffff;
             text-shadow:
@@ -255,6 +263,94 @@
             background-color: var(--border-default);
             color: var(--text-primary);
         }
+
+        /*
+            Map warning overlay. Floats across the map for blocking
+            conditions like "selection too large" or "resolution too
+            high for selection". Sized to feel like a modal but doesn't
+            actually trap focus or freeze the rest of the page - the
+            user can still interact with controls, the dismiss button
+            just hides it.
+
+            Z-index has to beat Leaflet's controls (1000) and tooltips
+            (650). 2000 leaves plenty of headroom.
+        */
+        #map-warning {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2000;
+            display: none;        /* JS toggles to flex */
+            align-items: flex-start;
+            gap: var(--space-3);
+            max-width: min(520px, calc(100% - var(--space-6) * 2));
+            padding: var(--space-4) var(--space-5);
+            background-color: rgba(17, 17, 19, 0.97);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--fire-500);
+            border-radius: var(--radius-lg);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+        }
+
+        #map-warning .warning-icon {
+            flex-shrink: 0;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background-color: var(--fire-500);
+            color: #1a0a00;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        #map-warning .warning-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        #map-warning-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--fire-400);
+            margin-bottom: 4px;
+        }
+
+        #map-warning-body {
+            font-size: 12px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        #map-warning-dismiss {
+            margin-top: var(--space-3);
+            height: 28px;
+            padding: 0 var(--space-4);
+            font-size: 12px;
+            font-weight: 500;
+            border-radius: var(--radius-sm);
+            background-color: var(--fire-500);
+            color: #1a0a00;
+            border: none;
+            cursor: pointer;
+            transition: background-color var(--transition-fast);
+        }
+
+        #map-warning-dismiss:hover {
+            background-color: var(--fire-400);
+        }
+
+        /* The map-stage needs to be a positioning context for the
+           absolutely-positioned warning to sit inside it. */
+        .map-stage {
+            position: relative;
+        }
     </style>
 </head>
 <body>
@@ -268,7 +364,6 @@
             </a>
             <div class="nav-links">
                 <a href="/map"     class="nav-link">Map</a>
-                <a href="/compare" class="nav-link">Compare</a>
                 <a href="/about"   class="nav-link">About</a>
             </div>
             <div class="nav-status">
@@ -375,60 +470,15 @@
                     </div>
                 </div>
 
-                <!-- Spread parameters. Collapsed by default because most
-                     users don't need to touch these; the defaults are
-                     sensible Mediterranean values. -->
-                <div class="card" style="margin-bottom: var(--space-4);">
-                    <div class="card-body" style="padding: var(--space-2) var(--space-3);">
-                        <details>
-                            <summary style="cursor: pointer; padding: var(--space-2) 0; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-tertiary); font-weight: 500;">
-                                Advanced: fire spread parameters
-                            </summary>
-                            <div style="padding-top: var(--space-3);">
-
-                        <div class="slider-row">
-                            <div class="slider-label-row">
-                                <label class="slider-label">Wind speed</label>
-                                <div class="slider-value">
-                                    <span data-display="wind_speed">8.0</span><span class="slider-value-unit">km/h</span>
-                                </div>
-                            </div>
-                            <input type="range" data-input="wind_speed" min="0" max="25" step="0.5" value="8">
-                        </div>
-
-                        <div class="slider-row">
-                            <div class="slider-label-row">
-                                <label class="slider-label">Wind direction</label>
-                                <div class="slider-value">
-                                    <span data-display="wind_direction">45</span><span class="slider-value-unit">deg</span>
-                                </div>
-                            </div>
-                            <input type="range" data-input="wind_direction" min="0" max="359" step="5" value="45">
-                        </div>
-
-                        <div class="slider-row">
-                            <div class="slider-label-row">
-                                <label class="slider-label">Vegetation moisture</label>
-                                <div class="slider-value">
-                                    <span data-display="vegetation_moisture">30</span><span class="slider-value-unit">%</span>
-                                </div>
-                            </div>
-                            <input type="range" data-input="vegetation_moisture" min="0" max="1" step="0.05" value="0.3">
-                        </div>
-
-                        <div class="slider-row">
-                            <div class="slider-label-row">
-                                <label class="slider-label">Base spread probability</label>
-                                <div class="slider-value">
-                                    <span data-display="base_spread_prob">0.45</span>
-                                </div>
-                            </div>
-                            <input type="range" data-input="base_spread_prob" min="0.1" max="0.9" step="0.05" value="0.45">
-                        </div>
-                            </div>
-                        </details>
-                    </div>
-                </div>
+                <!-- Spread parameters used to be exposed here as four
+                     sliders (wind speed, wind direction, vegetation
+                     moisture, base spread probability). Those have been
+                     removed in favour of the sensible Mediterranean
+                     defaults set in map.js's state object. The values
+                     are still sent to the backend on every simulation
+                     start - they're just no longer user-tweakable from
+                     the UI. The defaults are: 8 km/h wind, 45 deg from
+                     N, 30% vegetation moisture, 0.45 base spread. -->
 
                 <!-- Action buttons -->
                 <div class="card" style="margin-bottom: var(--space-4);">
@@ -466,6 +516,34 @@
                             <span class="legend-swatch" style="background: #475569;"></span>
                             No fuel (water / above tree line)
                         </div>
+
+                        <!--
+                            Köppen-Geiger climate zones legend. The
+                            colours match the canonical Kottek 2006
+                            palette used on the standard Wikipedia
+                            Köppen world map - the yellow/olive/darker
+                            olive trio for the three temperate
+                            dry-summer climates. Hexes inside any of
+                            these zones are flagged "in distribution"
+                            for the ML model; hexes outside get the
+                            amber warning in the tooltip.
+                        -->
+                        <div style="margin-top: var(--space-3); padding-top: var(--space-3); border-top: 1px solid rgba(63, 63, 70, 0.5);">
+                            <div style="font-size: 11px; color: var(--text-tertiary); margin-bottom: var(--space-2); text-transform: uppercase; letter-spacing: 0.05em;">Köppen climate zones</div>
+                            <div class="legend-row">
+                                <span class="legend-swatch" style="background: #ffff00;"></span>
+                                Csa - hot-summer Mediterranean
+                            </div>
+                            <div class="legend-row">
+                                <span class="legend-swatch" style="background: #c6c600;"></span>
+                                Csb - warm-summer Mediterranean
+                            </div>
+                            <div class="legend-row">
+                                <span class="legend-swatch" style="background: #969600;"></span>
+                                Csc - cool-summer Mediterranean
+                            </div>
+                        </div>
+
                         <div class="legend-row" style="margin-top: var(--space-2); padding-top: var(--space-2); border-top: 1px solid rgba(63, 63, 70, 0.5);">
                             <span class="legend-swatch" style="background: #f97316;"></span>
                             Burning
@@ -516,6 +594,25 @@
             <!-- Map stage -->
             <div class="map-stage">
                 <div id="leaflet-map"></div>
+
+                <!--
+                    Map warning overlay. Shown when the user's selection
+                    is too large for the hex limit, or when increasing
+                    the H3 resolution would push them over the limit.
+                    Sits absolutely positioned over the map at z-index
+                    2000 so it's impossible to miss. JS toggles
+                    display: flex on it.
+                -->
+                <div id="map-warning">
+                    <div class="warning-icon">!</div>
+                    <div class="warning-content">
+                        <div id="map-warning-title">Selection too large</div>
+                        <div id="map-warning-body">
+                            Try a smaller rectangle or lower the H3 resolution.
+                        </div>
+                        <button type="button" id="map-warning-dismiss">Got it</button>
+                    </div>
+                </div>
 
                 <!--
                     Prediction progress card. Shown while the

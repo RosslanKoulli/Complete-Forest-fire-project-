@@ -7,9 +7,9 @@
  *   - ROC curve chart drawn as raw SVG
  *   - Pairwise significance test results
  *
- * The ROC chart is hand-rolled SVG. ~80 lines of JS gets us a chart
+ * The ROC chart is hand-rolled SVG. 80 lines of JS gets us a chart
  * that matches the design system exactly. Recharts (in the React
- * version) was easier to write but pulled in ~100KB of library code
+ * version) was easier to write but pulled in 100KB of library code
  * for one chart on one page. Hand-rolled is more code but ships nothing.
  */
 
@@ -34,7 +34,7 @@ async function loadMetrics() {
 
         if (!metrics.available) {
             $('#compare-subtitle').textContent +=
-                ' (Showing placeholder values -- run train_all_models.py to populate.)';
+                ' (Showing placeholder values, run train_all_models.py to populate.)';
         }
 
         const comparison = metrics.sections.comparison || {};
@@ -109,7 +109,7 @@ function renderMetricCards(comparison) {
  * and passes through (0,0) and (1,1). Larger k produces higher AUC.
  * We binary-search k to match the target AUC numerically.
  *
- * This is an approximation -- the real fold-mean ROC curve would
+ * This is an approximation, the real fold-mean ROC curve would
  * require per-fold FPR/TPR arrays that the training script doesn't
  * currently export. Documented limitation.
  */

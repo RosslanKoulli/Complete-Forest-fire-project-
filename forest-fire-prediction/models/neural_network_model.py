@@ -119,7 +119,7 @@ class NeuralNetworkFireModel:
     
     def plot_training_curve(self, save_path: str = '../figures/nn_loss_curve.png'):
         """
-        Plot training loss curve — unique to the NN approach.
+        Plot training loss curve, unique to the NN approach.
         Shows how the network learned over epochs.
         """
         if not hasattr(self.model, 'loss_curve_'):
@@ -165,7 +165,8 @@ if __name__ == '__main__':
     from data_pipeline import FireDataPipeline
     
     pipeline = FireDataPipeline('../data/forestfires.csv',
-                                 '../data/Algerian_forest_fires_dataset.csv')
+                                 '../data/Algerian_forest_fires_dataset.csv',
+                                )
     combined = pipeline.build_unified_dataset()
     data = pipeline.prepare_features(combined, apply_smote=True)
     

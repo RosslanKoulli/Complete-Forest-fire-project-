@@ -144,12 +144,32 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
 // Update hex percentage labels when the user zooms. At low zoom levels
 // the labels are too cluttered to be useful; we add them only when
-// the zoom is high enough that each hex covers enough pixels.
+// the zoom is high enough that each hex covers enough pixels. We also
+// rescale the label font on every zoom so labels stay proportional to
+// the hex size on screen (otherwise they look comically large when
+// zoomed out and stay tiny when zoomed in).
 map.on('zoomend', () => {
-    // updateHexLabelVisibility is defined later in this file; using
-    // function declaration so it's hoisted and available here.
     updateHexLabelVisibility();
+    updateHexLabelScale();
 });
+
+// Belt-and-braces fix for the tooltip-stuck-on-held-click glitch.
+// Even with sticky:false on the tooltip binding, very fast mouse
+// gestures (press + drag + release) can occasionally leave a tooltip
+// open after the cursor has moved off the hex. We dismiss any open
+// tooltips on map drag start and on any mousedown outside a hex so
+// the user never has to fight to clear one.
+map.on('mousedown dragstart', () => {
+    dismissAllTooltips();
+});
+
+function dismissAllTooltips() {
+    for (const hex of state.hexes.values()) {
+        if (hex.polygon && hex.polygon.isTooltipOpen && hex.polygon.isTooltipOpen()) {
+            hex.polygon.closeTooltip();
+        }
+    }
+}
 
 
 // ============================================================
@@ -257,6 +277,9 @@ async function runPredictionFlow() {
     // late-arriving messages get ignored.
     closePrediction();
 
+    // Dismiss any leftover warning overlay from a prior failed attempt.
+    hideMapWarning();
+
     // Stop any in-progress simulation; the new selection invalidates it.
     closeSimulation();
 
@@ -270,9 +293,15 @@ async function runPredictionFlow() {
     );
 
     if (!ok) {
-        showStatus(
-            `That selection contains ${count} hexagons, which is over the limit of ${HEX_LIMIT}. Pick a smaller area or lower the H3 resolution slider.`,
-            'warn'
+        // The selection at this resolution exceeds the hex cap. We show
+        // a prominent across-the-map warning rather than just a status
+        // line below the map - the previous wording was easy to miss
+        // and people would just sit waiting for predictions that were
+        // never going to arrive.
+        showMapWarning(
+            'Selection too large',
+            `That rectangle contains ${count.toLocaleString()} hexagons at H3 resolution ${state.hexResolution}. ` +
+            `The limit is ${HEX_LIMIT}. Either draw a smaller rectangle or lower the resolution slider.`
         );
         return;
     }
@@ -281,6 +310,16 @@ async function runPredictionFlow() {
         showStatus('No hexagons found in that selection.', 'warn');
         return;
     }
+
+    // A selection inside the limit but still substantial: warn the user
+    // in the loading bar so they know to be patient. Bigger selections
+    // mean more Open-Meteo calls (one per uncached hex), which can take
+    // tens of seconds for a few hundred hexes.
+    const sizeHint = cells.length > 200
+        ? `Large selection (${cells.length} hexagons) - this may take a while.`
+        : cells.length > 50
+            ? `${cells.length} hexagons - moderate wait expected.`
+            : `${cells.length} hexagons - should be quick.`;
 
     // Build the request payload. Each hex needs h3_index plus its
     // centroid (lat, lon) for the weather lookup. Region is detected
@@ -324,10 +363,12 @@ async function runPredictionFlow() {
         state.predictionInFlight = true;
         state.predictionAborted = false;
 
-        // Show the progress UI immediately - the user gets feedback
-        // even before the first hex completes (during connection +
-        // request validation on the backend).
-        showPredictionProgress(0, cells.length, 'Connecting...');
+        // Show the progress UI immediately with the size-aware hint -
+        // the user gets feedback even before the first hex completes
+        // (during connection + request validation on the backend), and
+        // the message tells them to expect a longer wait if they drew
+        // a large rectangle.
+        showPredictionProgress(0, cells.length, sizeHint);
 
         // Hide the regular status message; we'll show it again on done.
         $('#status-message').style.display = 'none';
@@ -346,7 +387,7 @@ async function runPredictionFlow() {
                 start_date: state.timeWindowEnabled ? state.windowStartDate : null,
                 duration_days: state.timeWindowEnabled ? state.durationDays : null,
             }));
-            showPredictionProgress(0, cells.length, 'Computing predictions...');
+            showPredictionProgress(0, cells.length, sizeHint);
         };
 
         ws.onmessage = (event) => {
@@ -517,6 +558,33 @@ function finalizePredictionFlow(predictions, sourceStats) {
 
 
 // ============================================================
+// Map warning overlay (full-width over the map)
+// ============================================================
+//
+// Used for blocking conditions that the small status card under the
+// map is too discreet for - chiefly when the user's selection contains
+// too many hexagons to predict, or when they tried to bump the H3
+// resolution up too high for the current selection. The overlay sits
+// on top of the map with high z-index so it's impossible to miss; it
+// stays until dismissed.
+
+function showMapWarning(title, body) {
+    const wrap = $('#map-warning');
+    if (!wrap) return;
+    const titleEl = $('#map-warning-title');
+    const bodyEl  = $('#map-warning-body');
+    if (titleEl) titleEl.textContent = title;
+    if (bodyEl)  bodyEl.textContent  = body;
+    wrap.style.display = 'flex';
+}
+
+function hideMapWarning() {
+    const wrap = $('#map-warning');
+    if (wrap) wrap.style.display = 'none';
+}
+
+
+// ============================================================
 // Progress UI helpers
 // ============================================================
 
@@ -574,9 +642,19 @@ function renderHexPolygon(prediction) {
         opacity: HEX_STROKE_OPACITY,
     });
 
-    // Tooltip on hover: shows the prediction details.
+    // Tooltip on hover: shows the prediction details. We pass the hex
+    // wrapper as well as the prediction so the tooltip can use the
+    // current displayProb (which reflects the active model selection)
+    // for the "Avg" line, while still showing the unmodified rf/xgb/nn
+    // numbers from the backend underneath.
+    //
+    // Note: no `sticky: true` here. Sticky tooltips follow the cursor
+    // and, on some browsers, get into a wedged state when the left
+    // mouse button is held down then released over a different hex -
+    // the tooltip ends up anchored to the click point and won't close
+    // until the user clicks elsewhere. Plain hover tooltips anchor to
+    // the polygon and close cleanly on mouseleave.
     polygon.bindTooltip(buildTooltipHtml(prediction), {
-        sticky: true,
         direction: 'top',
         opacity: 0.95,
     });
@@ -605,12 +683,36 @@ function renderHexPolygon(prediction) {
         labelMarker = createHexLabel(prediction);
     }
 
-    state.hexes.set(prediction.h3_index, {
+    // Initial display values reflect the active model selection. For
+    // the default 'average' model these match the backend's avg_probability,
+    // but we recompute fresh from rf/xgb/nn so the value is correct
+    // regardless of what was last in avg_probability. These live on the
+    // wrapper (never on the prediction) so model switches are pure
+    // render operations.
+    const initialProb = probabilityForActiveModel(prediction);
+    const initialBand = prediction.risk_band === 'no_fuel'
+        ? 'no_fuel'
+        : riskBandForProb(initialProb);
+
+    const hexWrapper = {
         polygon,
         labelMarker,
         prediction,
+        displayProb: initialProb,
+        displayBand: initialBand,
         currentState: 0,   // 0=unburnt, 1=burning, 2=burnt, 3=firebreak
+    };
+
+    // Re-bind the tooltip now that we have the wrapper - this lets
+    // buildTooltipHtml read displayProb/displayBand off the wrapper
+    // so the "active model" line is correct from the very first hover.
+    polygon.unbindTooltip();
+    polygon.bindTooltip(buildTooltipHtml(prediction, hexWrapper), {
+        direction: 'top',
+        opacity: 0.95,
     });
+
+    state.hexes.set(prediction.h3_index, hexWrapper);
 }
 
 
@@ -621,12 +723,55 @@ const HEX_FILL_OPACITY = 0.85;
 const HEX_STROKE_OPACITY = 0.85;
 
 // Minimum map zoom at which per-hex percentage labels become visible.
-// At lower zooms the hexes are too small for text and the labels
-// would overlap into noise. At resolution 7 (~5 km hexes) zoom 8+
-// gives enough pixel area; at resolution 5 (~25 km hexes) zoom 6+
-// works. The thresholds below are a compromise that works reasonably
-// at the default resolution.
+// Below this zoom, labels are hidden entirely - the alternative (tiny
+// text squashed inside tiny hexes) renders as overlapping noise that
+// hurts more than it helps. The colour gradient still conveys risk at
+// any zoom; numbers are an enhancement only at usable zoom levels.
+//
+// Tuned to zoom 8 because at zoom 7 a default Leaflet viewport shows
+// a country-sized area, and even resolution-7 hexes (~5 km) appear at
+// only ~25px on screen - too small to fit a "65%" label without
+// overlapping its neighbours. Zoom 8 doubles that and gives labels
+// room to breathe.
 const LABEL_MIN_ZOOM = 8;
+
+// Font-size scaling. Labels grow slowly with zoom so they stay readable
+// as the user zooms in (without an upper cap, however, labels at low
+// zoom expand past the hex size and overlap each other - that's the
+// "ugly when zoomed out" bug).
+//
+// The cap matters more than the growth rate. We pin the font between
+// LABEL_MIN_PX and LABEL_MAX_PX no matter what zoom you're at:
+//
+//   - Below LABEL_MIN_ZOOM: labels are hidden entirely (updateHexLabelVisibility)
+//   - At LABEL_MIN_ZOOM exactly: font is LABEL_MIN_PX (10px)
+//   - For each zoom step above: font grows by LABEL_GROWTH_PX_PER_ZOOM
+//   - Above the cap zoom: font stays at LABEL_MAX_PX (16px)
+//
+// Linear growth rather than the original multiplicative one keeps the
+// numbers feeling consistent. 1.5 pixels per zoom is enough that the
+// user feels the labels respond to zoom, but small enough that they
+// never explode in sisze.
+const LABEL_MIN_PX = 1;
+const LABEL_MAX_PX = 5;
+const LABEL_GROWTH_PX_PER_ZOOM = 0.2;
+
+
+function updateHexLabelScale() {
+    // Set a CSS variable on the map container that drives the font-size
+    // of every .hex-label inside it. Updating one variable is dramatically
+    // cheaper than rebuilding every label's divIcon HTML on each zoomend.
+    //
+    // Clamp between LABEL_MIN_PX and LABEL_MAX_PX so labels never
+    // shrink to illegible at very low zoom (we hide them entirely
+    // below LABEL_MIN_ZOOM via updateHexLabelVisibility anyway) nor
+    // grow past the hex outline at very high zoom.
+    const zoom = map.getZoom();
+    const zoomDelta = Math.max(0, zoom - LABEL_MIN_ZOOM);
+    const rawSize = LABEL_MIN_PX + zoomDelta * LABEL_GROWTH_PX_PER_ZOOM;
+    const fontSize = Math.min(LABEL_MAX_PX, Math.max(LABEL_MIN_PX, rawSize));
+    map.getContainer().style.setProperty('--hex-label-size', `${fontSize.toFixed(1)}px`);
+}
 
 
 function createHexLabel(prediction) {
@@ -674,7 +819,7 @@ function updateHexLabelVisibility() {
 }
 
 
-function buildTooltipHtml(p) {
+function buildTooltipHtml(p, hex) {
     // No-fuel hexes get a different tooltip - showing probabilities
     // would be misleading (they're synthetic zeroes, not model output).
     // We surface the reason and the elevation instead.
@@ -702,9 +847,34 @@ function buildTooltipHtml(p) {
         `;
     }
 
-    // Compact tooltip showing the three model probabilities, the average,
-    // the inputs, and the reliability breakdown.
+    // Compact tooltip showing the three model probabilities, the
+    // currently-selected model's value (highlighted), the inputs,
+    // and the reliability breakdown.
     const i = p.inputs || {};
+
+    // The highlighted "active model" line uses the hex wrapper's
+    // displayProb / displayBand when present. These reflect the active
+    // model selection without mutating the underlying prediction
+    // object - so switching between RF / XGB / NN / Average always
+    // shows the right value and switches are fully reversible. When
+    // no hex is passed (e.g. very first render before recolouring),
+    // we fall back to recomputing the average fresh from rf/xgb/nn.
+    const displayProb = (hex && hex.displayProb !== undefined)
+        ? hex.displayProb
+        : (p.rf_probability + p.xgb_probability + p.nn_probability) / 3.0;
+    const displayBand = (hex && hex.displayBand)
+        ? hex.displayBand
+        : p.risk_band;
+
+    // The label next to the highlighted probability reflects whichever
+    // model the user has currently selected. Reading from state keeps
+    // this in sync without having to thread the model name through.
+    const activeLabel = (
+        state.activeModel === 'rf'  ? 'RF'  :
+        state.activeModel === 'xgb' ? 'XGB' :
+        state.activeModel === 'nn'  ? 'NN'  :
+        'Avg'
+    );
 
     // Colour the reliability values: green if high, amber if marginal, red if low.
     const reliabilityColour = (v) =>
@@ -727,13 +897,13 @@ function buildTooltipHtml(p) {
     return `
         <div style="font-family: Inter, sans-serif; font-size: 12px; line-height: 1.5;">
             <div style="font-weight: 500; margin-bottom: 4px;">
-                ${p.h3_index.slice(-6)} - ${p.risk_band} risk
+                ${p.h3_index.slice(-6)} - ${displayBand} risk
             </div>
             <div style="font-family: 'JetBrains Mono', monospace; font-variant-numeric: tabular-nums;">
                 RF:&nbsp;&nbsp;${(p.rf_probability * 100).toFixed(0)}%<br>
                 XGB:&nbsp;${(p.xgb_probability * 100).toFixed(0)}%<br>
                 NN:&nbsp;&nbsp;${(p.nn_probability * 100).toFixed(0)}%<br>
-                <span style="color: #f97316;">Avg: ${(p.avg_probability * 100).toFixed(0)}%</span>
+                <span style="color: #f97316;">${activeLabel}: ${(displayProb * 100).toFixed(0)}%</span>
             </div>
             <div style="margin-top: 6px; padding-top: 6px; border-top: 1px solid #444;">
                 <div style="font-size: 11px; margin-bottom: 2px; color: #a1a1aa;">Reliability</div>
@@ -1002,6 +1172,12 @@ function igniteHex(h3Index) {
         // exactly like before.
         duration_days: state.timeWindowEnabled ? state.durationDays : null,
         hours_per_step: 12.0,
+        // H3 resolution: the backend uses this to scale the per-frame
+        // sleep so bigger hexes (lower resolution) animate slower,
+        // giving the visual spread rate a physically-grounded feel
+        // rather than racing across the map at the same wall-clock
+        // speed regardless of how much area each cell covers.
+        hex_resolution: state.hexResolution,
     };
 
     // Open the WebSocket. We use the same host as the page, automatically
@@ -1101,10 +1277,12 @@ function igniteHex(h3Index) {
 
 function applyHexClass(hex) {
     // Map the hex's current sim state to a CSS class on the polygon path.
-    // The risk_band may use underscores (no_fuel) so we normalise to
-    // hyphens for the CSS class name, matching the convention used at
-    // hex creation time.
-    const baseClass = `hex-${hex.prediction.risk_band.replace(/_/g, '-')}`;
+    // For the unburnt state we use displayBand (set by recolourHexesForActiveModel)
+    // when present, falling back to the backend's original risk_band on the
+    // prediction object. This keeps the colour driven by whatever model the
+    // user has selected without mutating the prediction itself.
+    const baseBand = hex.displayBand || hex.prediction.risk_band;
+    const baseClass = `hex-${baseBand.replace(/_/g, '-')}`;
     const stateMap = {
         0: baseClass,            // unburnt - back to risk colour
         1: 'hex-burning',
@@ -1135,10 +1313,18 @@ function applyHexClass(hex) {
 }
 
 
-// Map the active model selection to the per-prediction field that
-// holds its probability. The backend always returns rf/xgb/nn plus
-// avg as four separate fields, so model-switching is a pure render
-// operation.
+// Map the active model selection to the per-prediction probability.
+// The backend always returns rf/xgb/nn plus avg as four separate fields
+// on each prediction, so model-switching is a pure render operation.
+//
+// IMPORTANT: when activeModel is 'average', we recompute the mean from
+// the three raw model probabilities rather than reading prediction.avg_probability.
+// Earlier versions of this code mutated avg_probability in place when
+// the user switched models, which meant switching to RF and back to
+// Average would leave avg_probability holding the RF value instead of
+// the actual three-model mean. Computing fresh from rf/xgb/nn each
+// time means switches are fully reversible and the "Average" view
+// always reflects the true ensemble average.
 function probabilityForActiveModel(prediction) {
     switch (state.activeModel) {
         case 'rf':  return prediction.rf_probability;
@@ -1146,7 +1332,9 @@ function probabilityForActiveModel(prediction) {
         case 'nn':  return prediction.nn_probability;
         case 'average':
         default:
-            return prediction.avg_probability;
+            return (prediction.rf_probability
+                  + prediction.xgb_probability
+                  + prediction.nn_probability) / 3.0;
     }
 }
 
@@ -1165,17 +1353,24 @@ function riskBandForProb(p) {
 // probability. Triggered when the user switches model selector. Skips
 // no-fuel hexes (those don't have model output) and skips hexes that
 // are currently burning/burnt (the simulation owns their colour).
+//
+// IMPORTANT: this function does NOT mutate prediction.avg_probability
+// or prediction.risk_band. The original backend values are preserved
+// so the Average view always recomputes correctly. Instead, the
+// hex wrapper stores a `displayProb` and `displayBand` used purely
+// for rendering.
 function recolourHexesForActiveModel() {
     for (const hex of state.hexes.values()) {
         const p = hex.prediction;
         if (p.risk_band === 'no_fuel') continue;
 
-        // Update the prediction object in place so future operations
-        // (tooltip rebuilds, ignition) see the new band.
+        // Compute the display values for this model selection. These
+        // live on the hex wrapper, never on the prediction object, so
+        // the underlying backend data stays pristine.
         const newProb = probabilityForActiveModel(p);
         const newBand = riskBandForProb(newProb);
-        p.avg_probability = newProb;
-        p.risk_band = newBand;
+        hex.displayProb = newProb;
+        hex.displayBand = newBand;
 
         // If this hex is currently in an unburnt state, refresh its
         // colour and label. If it's burning or burnt, leave it alone -
@@ -1197,10 +1392,11 @@ function recolourHexesForActiveModel() {
             }));
         }
 
-        // Refresh the tooltip so the highlighted Avg matches.
+        // Refresh the tooltip so the highlighted "Avg" matches the
+        // display value, but the underlying rf/xgb/nn breakdown still
+        // shows the true backend numbers.
         hex.polygon.unbindTooltip();
-        hex.polygon.bindTooltip(buildTooltipHtml(p), {
-            sticky: true,
+        hex.polygon.bindTooltip(buildTooltipHtml(p, hex), {
             direction: 'top',
             opacity: 0.95,
         });
@@ -1386,12 +1582,38 @@ function wireControls() {
         });
 
         // If the resolution slider changes, regenerate hexes for the
-        // current selection.
+        // current selection. Before we kick off the prediction we
+        // check whether the new resolution would push the hex count
+        // over the limit; if so, we revert the slider to its prior
+        // value and show the big warning overlay rather than silently
+        // doing nothing. This is point (9): "if the resolution
+        // increase is too big for the square that was made, give the
+        // user a notification".
         if (field === 'hex_resolution') {
+            // Track the value before each change so we can revert.
+            let priorValue = parseInt(input.value, 10);
             input.addEventListener('change', () => {
-                if (state.selectedBounds) {
-                    runPredictionFlow();
+                if (!state.selectedBounds) {
+                    priorValue = parseInt(input.value, 10);
+                    return;
                 }
+                const newRes = parseInt(input.value, 10);
+                const probe = generateHexagons(state.selectedBounds, newRes);
+                if (!probe.ok) {
+                    // Revert visually and in state - this resolution
+                    // doesn't fit the current selection.
+                    input.value = String(priorValue);
+                    state.hexResolution = priorValue;
+                    if (display) display.textContent = String(priorValue);
+                    showMapWarning(
+                        'Resolution too high for this selection',
+                        `Increasing the H3 resolution to ${newRes} would create ${probe.count.toLocaleString()} hexagons, ` +
+                        `which is over the ${HEX_LIMIT} limit. Either keep the current resolution or draw a smaller rectangle first.`
+                    );
+                    return;
+                }
+                priorValue = newRes;
+                runPredictionFlow();
             });
         }
     });
@@ -1407,6 +1629,7 @@ function wireControls() {
         state.selectedBounds = null;
         clearHexes();
         closeSimulation();
+        hideMapWarning();
         $('#status-message').style.display = 'none';
         // Remove any active dim mask too
         updateDimMask();
@@ -1437,6 +1660,18 @@ function wireControls() {
         state.simulationFrames = [];
         hideDayScrubber();
         $('#clear-burnt-btn').disabled = true;
+
+        // Reset the stats strip too. Without this, Burnt Percentage
+        // would keep displaying the final value from the cleared
+        // simulation even though the map no longer shows any burnt
+        // hexes - confusing for the user.
+        showStats({
+            hexCount: state.hexes.size,
+            step: 0,
+            burning: 0,
+            burnt: 0,
+            burntPct: 0,
+        });
         showStatus('Burnt areas cleared. Click any hex to ignite again.', 'info');
     });
 
@@ -1477,6 +1712,15 @@ function wireControls() {
         });
     }
 
+    // Dismiss button on the map warning overlay (points 8 and 9).
+    // The overlay is modal-feeling but not actually modal - the user
+    // can still interact with the rest of the page; the button just
+    // hides it once they've read the message.
+    const warningDismiss = $('#map-warning-dismiss');
+    if (warningDismiss) {
+        warningDismiss.addEventListener('click', () => hideMapWarning());
+    }
+
     // Time-window date picker. The toggle checkbox was removed - the
     // time window is always-on now. Changing the date re-runs the
     // prediction so the colours reflect the new period's weather.
@@ -1505,10 +1749,16 @@ function wireControls() {
 // drawn from Mediterranean climates, and predictions outside that
 // climate are extrapolating.
 //
-// The GeoJSON is a simplified hand-curated approximation of the
-// boundaries published by Beck et al. (2018). It is NOT a precise
-// scientific raster - the polygons are smoothed to ~0.5 degree
-// resolution for visual clarity and fast point-in-polygon checks.
+// The GeoJSON at /static/data/mediterranean_climate.geojson is
+// expected to be a direct conversion of a real Köppen-Geiger raster
+// (Beck et al. 2018 at 1 km, or Kottek et al. 2006 at 0.5 deg) into
+// polygons - see scripts/build_koppen_geojson.py for the converter.
+// Each feature has a `properties.zone` of "Csa", "Csb", or "Csc",
+// which drives both the fill colour and the in-distribution check.
+//
+// The colour palette below matches the canonical Kottek 2006 scheme
+// used on the Wikipedia Köppen-Geiger world map: yellow / olive /
+// darker olive, in zone order.
 
 let koppenLayer = null;          // Leaflet GeoJSON layer (or null)
 let koppenFeatures = null;       // raw feature array for point-in-polygon
@@ -1559,13 +1809,28 @@ async function loadKoppenZones() {
         const geojson = await response.json();
         koppenFeatures = geojson.features;
 
-        // Render as a translucent layer. Different fill per zone so the
-        // user can distinguish hot-summer (Csa) from warm-summer (Csb)
-        // Mediterranean climates.
+        // Render as a translucent layer matching the canonical
+        // Köppen-Geiger colour scheme from Kottek et al. (2006), the
+        // same palette used on the standard Wikipedia world map and
+        // every Köppen reference figure:
+        //
+        //   Csa - hot-summer Mediterranean   - pure yellow
+        //   Csb - warm-summer Mediterranean  - olive
+        //   Csc - cool-summer Mediterranean  - darker olive
+        //
+        // No dashArray (the older render dashed the borders, which
+        // looked tentative - solid borders read "these are the actual
+        // boundaries" which matches the 1:1 fidelity of the real
+        // Köppen raster the GeoJSON is built from).
+        //
+        // Fill opacity is bumped slightly higher than the previous
+        // value of 0.10. Olive and dark-olive on a dark basemap need
+        // more saturation to be legible, but going much higher
+        // overwhelms the hex predictions on top.
         const zoneStyle = {
-            Csa: { color: '#dc2626', fillColor: '#dc2626', fillOpacity: 0.10, weight: 1.5, dashArray: '4 3' },
-            Csb: { color: '#d97706', fillColor: '#d97706', fillOpacity: 0.10, weight: 1.5, dashArray: '4 3' },
-            Csc: { color: '#0891b2', fillColor: '#0891b2', fillOpacity: 0.10, weight: 1.5, dashArray: '4 3' },
+            Csa: { color: '#ffff00', fillColor: '#ffff00', fillOpacity: 0.22, weight: 1.2, opacity: 0.95 },
+            Csb: { color: '#c6c600', fillColor: '#c6c600', fillOpacity: 0.22, weight: 1.2, opacity: 0.95 },
+            Csc: { color: '#969600', fillColor: '#969600', fillOpacity: 0.22, weight: 1.2, opacity: 0.95 },
         };
 
         koppenLayer = L.geoJSON(geojson, {
@@ -1635,6 +1900,10 @@ function detectRegionForLocation(lat, lng) {
 setActiveNavLink();
 updateStatusDot();
 wireControls();
+
+// Set the initial hex-label font scale based on the default zoom.
+// Subsequent zoom events update it via the zoomend handler.
+updateHexLabelScale();
 
 // Load the Köppen overlay asynchronously - if it fails the rest of
 // the app still works, we just don't show the climate-zone outline

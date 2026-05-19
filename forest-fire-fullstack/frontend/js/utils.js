@@ -4,8 +4,8 @@
  *
  * Small helpers used across pages. Two categories:
  *
- *   1. Formatters -- turn numbers into display strings
- *   2. DOM helpers -- shorter alternatives to verbose DOM API
+ *   1. Formatters: turn numbers into display strings
+ *   2. DOM helpers:  shorter alternatives to verbose DOM API
  *
  * The DOM helpers are the closest thing this codebase has to a
  * framework. The pattern is "create an element with classes, attrs,
@@ -182,7 +182,7 @@ export async function updateStatusDot() {
     }
 }
 
-/** Model accent colour table -- keeps colours consistent across pages. */
+/** Model accent colour table, keeps colours consistent across pages. */
 export const MODEL_COLORS = {
     'Random Forest':  '#10b981',
     'XGBoost':        '#3b82f6',

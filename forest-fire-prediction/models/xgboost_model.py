@@ -3,7 +3,7 @@ XGBoost Fire Ignition Classifier
 =================================
 Approach 2 of 3 in the comparative study.
 
-Gradient-boosted decision trees — builds trees sequentially where
+Gradient-boosted decision trees, builds trees sequentially where
 each new tree corrects errors from the previous ensemble.
 
 Key difference from Random Forest:

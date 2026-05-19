@@ -30,7 +30,7 @@ export class ApiError extends Error {
 }
 
 /**
- * Internal helper -- all requests go through this. It centralises
+ * Internal helper: all requests go through this. It centralises
  * JSON serialisation, error handling, and content-type headers.
  */
 async function request(path, options = {}) {
@@ -60,7 +60,7 @@ export const checkHealth = () => request('/api/health');
 
 /**
  * Run all three models on one input. The request shape is documented
- * by the backend's Pydantic schema -- see backend/schemas/predict.py.
+ * by the backend's Pydantic schema, see backend/schemas/predict.py.
  *
  * @param {object} req - PredictionRequest
  * @returns {Promise<object>} PredictionResponse
@@ -77,7 +77,7 @@ export const predictOne = (modelName, req) =>
 // ============ Simulate ============
 
 /**
- * Full simulation -- blocks until done, returns all frames.
+ * Full simulation: blocks until done, returns all frames.
  * Use streamSimulation for live frame-by-frame rendering.
  */
 export const simulate = (cfg) =>

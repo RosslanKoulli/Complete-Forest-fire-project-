@@ -1,5 +1,5 @@
 /*
- * Forest Fire Prediction — vanilla CSS
+ * Forest Fire Prediction-vanilla CSS
  * ======================================
  *
  * One file, no preprocessor, no Tailwind. Organised top to bottom:
@@ -21,9 +21,9 @@
 :root {
     /* Colour palette -- mirrors the Tailwind values from the React build
        so the visual language is identical */
-    --bg-base: #09090b;            /* zinc-950 -- page background */
-    --bg-elevated: #18181b;        /* zinc-900 -- card surface */
-    --bg-elevated-2: #27272a;      /* zinc-800 -- hover, raised */
+    --bg-base: #09090b;            /* zinc-950 - page background */
+    --bg-elevated: #18181b;        /* zinc-900 - card surface */
+    --bg-elevated-2: #27272a;      /* zinc-800 - hover, raised */
     --border-subtle: #27272a;
     --border-default: #3f3f46;     /* zinc-700 */
 
@@ -529,7 +529,7 @@ input[type='range']:focus::-webkit-slider-thumb {
     box-shadow: 0 0 0 1px var(--border-default) inset;
 }
 
-/* Month picker -- 12-cell mini grid */
+/* Month picker - 12-cell mini grid */
 .month-grid {
     display: grid;
     grid-template-columns: repeat(12, 1fr);
