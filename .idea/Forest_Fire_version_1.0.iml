@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="PYTHON_MODULE" version="4">
+  <component name="NewModuleRootManager">
+    <content url="file://$MODULE_DIR$/../Forest_Fire_version_1.0">
+      <sourceFolder url="file://$MODULE_DIR$/../Forest_Fire_version_1.0/forest-fire-fullstack" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../Forest_Fire_version_1.0/forest-fire-fullstack/backend" isTestSource="false" />
+    </content>
+    <orderEntry type="jdk" jdkName="Python 3.10" jdkType="Python SDK" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+  <component name="PyDocumentationSettings">
+    <option name="format" value="PLAIN" />
+    <option name="myDocStringFormat" value="Plain" />
+  </component>
+</module>

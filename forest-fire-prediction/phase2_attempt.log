@@ -1,0 +1,9 @@
+2026-05-18 22:48:48,688 [INFO] ============================================================
+2026-05-18 22:48:48,688 [INFO] Phase 2: Mediterranean dataset extension via Mesogeos
+2026-05-18 22:48:48,688 [INFO] ============================================================
+2026-05-18 22:48:48,689 [INFO] Started at 2026-05-18T22:48:48.689992
+2026-05-18 22:48:48,937 [INFO] Querying Zenodo record 8036851...
+2026-05-18 22:48:49,534 [INFO] Downloading Orion-AI-Lab/mesogeos-v1.2.zip (11.4 MB)...
+2026-05-18 22:48:50,022 [ERROR] Download failed: [Errno 2] No such file or directory: 'C:\\Users\\hp\\Desktop\\Computers shared storage\\Desktop\\Forest_Fire_version_1.0\\forest-fire-prediction\\mesogeos_download\\Orion-AI-Lab\\mesogeos-v1.2.zip'
+2026-05-18 22:48:50,023 [ERROR] Phase 2 aborted: download failed. Existing trained models are untouched.
+2026-05-18 22:48:50,023 [INFO] This is a documented failure - the project report can describe what was attempted.

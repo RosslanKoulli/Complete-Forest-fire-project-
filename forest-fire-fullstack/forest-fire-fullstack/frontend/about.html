@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About * Forest fire prediction</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+    <nav class="nav">
+        <div class="nav-inner">
+            <a href="/" class="nav-brand">
+                <svg class="nav-brand-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>
+                </svg>
+                <span>Forest Fire <span class="nav-brand-divider">*</span> ML</span>
+            </a>
+            <div class="nav-links">
+                <a href="/map"     class="nav-link">Map</a>
+                <a href="/compare" class="nav-link">Compare</a>
+                <a href="/about"   class="nav-link">About</a>
+            </div>
+            <div class="nav-status">
+                <span id="status-dot" class="status-dot"></span>
+                <span id="status-text">connecting</span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container">
+        <header class="page-header">
+            <h1 class="page-title">About this project</h1>
+            <p class="page-description">
+                Final-year individual project for CI601 at the University of Brighton.
+            </p>
+        </header>
+
+        <div class="about-content">
+            <section class="about-section">
+                <h2>The problem</h2>
+                <p>
+                    Wildfires destroy ecosystems, displace communities, and contribute meaningfully
+                    to greenhouse gas emissions. Predicting where and when fires are likely to
+                    ignite would let fire services pre-position resources and trigger preventative
+                    measures. The task here is the simpler of two related problems: given the
+                    current weather and fuel state at a location, estimate the probability of
+                    ignition. The harder problem -- predicting exact timing and location of an
+                    unstarted fire -- requires data sources well beyond an undergraduate project.
+                </p>
+            </section>
+
+            <section class="about-section">
+                <h2>Models compared</h2>
+                <div class="model-explainer-grid">
+                    <div class="card card-body">
+                        <div class="model-explainer-header">
+                            <span class="model-explainer-dot" style="background: #10b981;"></span>
+                            <span class="model-explainer-name">Random Forest</span>
+                        </div>
+                        <div class="model-explainer-short">Bagging ensemble of decision trees</div>
+                        <p class="model-explainer-text">
+                            Strong baseline for tabular data with mixed feature types. Built-in feature
+                            importance. Resistant to overfitting on small datasets.
+                        </p>
+                    </div>
+
+                    <div class="card card-body">
+                        <div class="model-explainer-header">
+                            <span class="model-explainer-dot" style="background: #3b82f6;"></span>
+                            <span class="model-explainer-name">XGBoost</span>
+                        </div>
+                        <div class="model-explainer-short">Gradient boosting</div>
+                        <p class="model-explainer-text">
+                            State-of-the-art for tabular classification. Each tree corrects errors of
+                            the previous. Generally outperforms Random Forest on the Algerian dataset
+                            in published benchmarks.
+                        </p>
+                    </div>
+
+                    <div class="card card-body">
+                        <div class="model-explainer-header">
+                            <span class="model-explainer-dot" style="background: #f97316;"></span>
+                            <span class="model-explainer-name">MLP Neural Network</span>
+                        </div>
+                        <div class="model-explainer-short">Multilayer perceptron</div>
+                        <p class="model-explainer-text">
+                            Tests whether neural networks can match tree ensembles on small tabular
+                            data. Spoiler: usually no, and that null result is itself a finding.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="about-section">
+                <h2>Dataset</h2>
+                <div class="card card-body">
+                    <p>Two regional datasets combined into one training corpus of 761 samples:</p>
+                    <ul>
+                        <li>
+                            <strong>UCI Forest Fires</strong> (Portugal, Montesinho Natural Park) --
+                            517 records with eleven features including FWI components.
+                        </li>
+                        <li>
+                            <strong>Algerian Forest Fires</strong> (Bejaia and Sidi Bel-Abbes) --
+                            244 records with the same feature set.
+                        </li>
+                    </ul>
+                    <p>
+                        Both regions have Mediterranean climates -- hot dry summers, mild wet
+                        winters. The combined dataset captures fire-weather relationships that
+                        are specific to this climate zone.
+                    </p>
+                </div>
+            </section>
+
+            <section class="about-section">
+                <h2>Why a separate API and frontend?</h2>
+                <p>
+                    The original prototype used Streamlit, which couples model serving and UI
+                    into a single Python process. That choice was timeline-driven. This version
+                    separates them -- a FastAPI backend serves predictions and simulations as
+                    REST and WebSocket endpoints, and the frontend is a static set of HTML, CSS,
+                    and JavaScript files served by the same FastAPI instance. The separation is
+                    what production ML systems do, and it lets the two layers evolve independently.
+                    The auto-generated API docs at <code>/docs</code> are a real artefact: anyone
+                    can call the API themselves with no other tooling.
+                </p>
+                <p>
+                    The frontend is hand-written vanilla JavaScript -- no React, no build step,
+                    no <code>npm</code>. Every line is direct DOM manipulation and fetch calls.
+                    Trade-off: more code volume than a framework version, but every line is readable
+                    and auditable, and the page ships zero JavaScript framework bytes.
+                </p>
+            </section>
+
+            <section class="about-section">
+                <h2>Map-based interaction</h2>
+                <p>
+                    The Map page is the primary interactive surface. It uses Leaflet for the base
+                    map, the H3 hexagonal hierarchical indexing system for tessellation, and
+                    Open-Meteo for live weather. The flow is: draw a rectangle, get hexagons
+                    coloured by fire probability, click any hexagon to ignite a fire, watch the
+                    spread animate across the surrounding hexes.
+                </p>
+                <p>
+                    Each hex's prediction is built from real conditions. The backend fetches the
+                    last seven days of daily weather for the hex's centroid, walks them through
+                    the Van Wagner FWI System equations to compute FFMC, DMC, DC, and ISI, then
+                    runs all three trained models on the resulting feature vector. Weather
+                    lookups are cached at 0.1-degree resolution (about 11 km) so a 200-hex
+                    selection over a small region produces a handful of API calls rather than
+                    two hundred.
+                </p>
+                <p>
+                    The fire spread itself is a hex-based cellular automaton. Each burning hex
+                    has a probability of igniting each of its six neighbours per time step,
+                    weighted by wind direction (against the wind: low; with the wind: high),
+                    vegetation moisture, and the neighbour's underlying fire probability from the
+                    ML models. The user-controllable parameters in the side panel directly drive
+                    the simulation. State streams over WebSocket frame by frame, rendered as
+                    colour changes on the existing hex polygons rather than redrawing the whole
+                    map each frame.
+                </p>
+            </section>
+
+            <section class="about-section">
+                <h2>Honest scoping</h2>
+                <div class="card card-body amber-card">
+                    <p>
+                        <strong>Mediterranean climate only.</strong> The
+                        models learned the relationship between fire-weather conditions and ignition
+                        from two regional datasets. They will generalise reasonably to other
+                        Mediterranean basins but should not be trusted on tropical, boreal,
+                        grassland, or oceanic climates. Production global fire prediction needs
+                        region-specific models, satellite-derived vegetation, terrain, and orders
+                        of magnitude more training data -- a multi-year research effort.
+                    </p>
+                </div>
+            </section>
+
+            <section class="about-section">
+                <h2>Code, tests, references</h2>
+                <div class="card card-body">
+                    <ul class="kv-list">
+                        <li>
+                            <span class="kv-key">Codebase</span>
+                            <span class="kv-value">~3,300 lines of Python + ~2,000 lines of JS/HTML/CSS</span>
+                        </li>
+                        <li>
+                            <span class="kv-key">Unit tests</span>
+                            <span class="kv-value">61 across data pipeline, models, evaluator, and CA engine</span>
+                        </li>
+                        <li>
+                            <span class="kv-key">Frameworks</span>
+                            <span class="kv-value">scikit-learn, XGBoost, SHAP, FastAPI</span>
+                        </li>
+                        <li>
+                            <span class="kv-key">Frontend</span>
+                            <span class="kv-value">Hand-written vanilla JavaScript, no build step</span>
+                        </li>
+                        <li>
+                            <span class="kv-key">Key references</span>
+                            <span class="kv-value">Breiman 2001 * Chen &amp; Guestrin 2016 * Trunfio 2004 * Moghim &amp; Mehrabi 2024</span>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="footer">
+        CI601 individual project * University of Brighton * 2026
+    </footer>
+
+    <script type="module">
+        import { setActiveNavLink, updateStatusDot } from '/static/js/utils.js';
+        setActiveNavLink();
+        updateStatusDot();
+    </script>
+</body>
+</html>

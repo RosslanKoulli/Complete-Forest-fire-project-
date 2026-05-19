@@ -1,0 +1,20 @@
+{
+  "Random Forest vs XGBoost": {
+    "t_statistic": 9.395369994696713,
+    "p_value": 0.000715135099640792,
+    "significant": true,
+    "mean_diff": 0.011260634213702714
+  },
+  "Random Forest vs Neural Network": {
+    "t_statistic": 9.89222603819842,
+    "p_value": 0.0005860738202544751,
+    "significant": true,
+    "mean_diff": 0.03353993001184319
+  },
+  "XGBoost vs Neural Network": {
+    "t_statistic": 5.842997231700809,
+    "p_value": 0.004277880322319669,
+    "significant": true,
+    "mean_diff": 0.022279295798140475
+  }
+}

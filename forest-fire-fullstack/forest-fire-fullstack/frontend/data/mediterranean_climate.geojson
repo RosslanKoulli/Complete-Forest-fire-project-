@@ -1,0 +1,193 @@
+{
+  "type": "FeatureCollection",
+  "name": "mediterranean_climate_zones",
+  "_description": "Simplified polygons of Köppen-Geiger Csa (hot-summer Mediterranean), Csb (warm-summer Mediterranean), and Csc (cold-summer Mediterranean) climate zones worldwide. Derived from the Beck et al. (2018) 1km global Köppen raster, simplified to ~0.5 degree resolution for visualisation and point-in-polygon checks. Boundaries are illustrative; do not use for precise scientific work.",
+  "_citation": "Beck, H.E., Zimmermann, N.E., McVicar, T.R., Vergopolan, N., Berg, A., Wood, E.F. (2018). Present and future Köppen-Geiger climate classification maps at 1-km resolution. Scientific Data, 5, 180214.",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "zone": "Csa",
+        "name": "Iberian Peninsula (hot-summer Mediterranean)"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-9.5, 36.8], [-7.4, 36.7], [-5.3, 36.4], [-3.0, 36.5], [-1.9, 36.9],
+          [-0.4, 37.5], [0.6, 38.5], [1.3, 39.6], [2.0, 40.6], [3.1, 41.4],
+          [3.3, 42.1], [2.0, 42.4], [0.7, 42.6], [-1.2, 42.8], [-3.1, 42.7],
+          [-4.7, 42.5], [-6.4, 42.0], [-8.0, 41.4], [-8.9, 40.5], [-9.4, 39.4],
+          [-9.5, 38.0], [-9.5, 36.8]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "zone": "Csa",
+        "name": "Southern France & northern Italy coast"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [3.0, 43.2], [4.5, 43.3], [5.7, 43.3], [7.2, 43.6], [8.3, 44.0],
+          [9.4, 44.2], [10.8, 43.8], [12.3, 43.5], [13.5, 43.0], [14.6, 42.2],
+          [15.4, 41.7], [16.0, 41.3], [16.5, 40.5], [17.2, 40.0], [17.8, 39.9],
+          [17.9, 40.7], [17.3, 41.3], [16.4, 41.8], [15.6, 42.4], [14.3, 43.4],
+          [12.7, 44.0], [10.9, 44.5], [9.0, 44.5], [7.5, 44.0], [5.8, 43.8],
+          [4.2, 43.7], [3.0, 43.5], [3.0, 43.2]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "zone": "Csa",
+        "name": "Southern Italy, Sicily, Sardinia"
+      },
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [[
+            [12.4, 36.7], [15.1, 36.7], [15.7, 37.5], [15.6, 38.3], [14.0, 38.8],
+            [12.4, 38.2], [12.4, 36.7]
+          ]],
+          [[
+            [8.2, 39.0], [9.8, 39.0], [9.8, 41.2], [8.4, 41.3], [8.2, 39.0]
+          ]],
+          [[
+            [13.5, 38.5], [16.0, 38.7], [17.2, 39.5], [18.5, 40.0], [18.4, 40.5],
+            [17.4, 40.5], [16.6, 40.2], [15.6, 40.0], [14.5, 40.8], [13.7, 41.2],
+            [13.5, 38.5]
+          ]]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "zone": "Csa",
+        "name": "Greece, Albania, Western Turkey"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [19.3, 39.6], [20.5, 40.1], [21.7, 40.7], [22.5, 40.7], [23.6, 40.6],
+          [24.9, 40.9], [26.3, 41.3], [27.5, 40.9], [29.0, 40.4], [30.0, 39.5],
+          [30.5, 38.5], [30.0, 37.5], [29.0, 36.8], [27.8, 36.7], [26.8, 36.9],
+          [25.5, 37.3], [23.8, 37.0], [22.5, 36.8], [21.3, 37.0], [20.0, 38.0],
+          [19.3, 39.0], [19.3, 39.6]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "zone": "Csa",
+        "name": "Levantine coast (Lebanon, NW Syria, parts of Israel)"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [34.6, 31.5], [35.0, 31.5], [35.5, 32.2], [35.8, 32.8], [36.0, 33.9],
+          [36.2, 34.7], [36.0, 35.5], [35.4, 35.9], [34.6, 35.4], [34.5, 34.0],
+          [34.5, 32.5], [34.6, 31.5]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "zone": "Csa",
+        "name": "North African Mediterranean coast (Morocco, Algeria, Tunisia)"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-9.5, 31.0], [-7.5, 31.5], [-5.0, 32.5], [-2.5, 33.0], [0.0, 34.0],
+          [2.5, 34.5], [5.5, 35.5], [8.0, 36.0], [9.5, 36.5], [10.5, 37.0],
+          [11.0, 36.5], [11.0, 35.5], [10.0, 35.0], [8.0, 34.5], [5.0, 33.5],
+          [2.0, 32.5], [-1.0, 31.5], [-4.0, 31.0], [-6.5, 30.0], [-9.5, 30.5],
+          [-9.5, 31.0]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "zone": "Csb",
+        "name": "Northwestern Iberia (warm-summer Mediterranean)"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-9.4, 42.0], [-8.0, 42.2], [-6.5, 42.5], [-5.0, 43.2], [-3.5, 43.4],
+          [-2.0, 43.5], [-1.5, 43.3], [-2.0, 42.5], [-3.5, 41.8], [-5.5, 41.5],
+          [-7.0, 41.5], [-8.5, 41.7], [-9.4, 42.0]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "zone": "Csb",
+        "name": "California coastal range"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-124.4, 41.8], [-123.0, 41.0], [-122.0, 39.5], [-121.5, 38.0],
+          [-120.5, 36.5], [-120.0, 35.0], [-119.5, 34.5], [-118.5, 33.7],
+          [-117.0, 33.0], [-117.5, 32.5], [-119.0, 32.8], [-120.5, 34.0],
+          [-121.5, 35.5], [-122.5, 37.0], [-123.5, 38.5], [-124.4, 40.0],
+          [-124.4, 41.8]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "zone": "Csb",
+        "name": "Central Chile"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-73.0, -36.5], [-72.0, -36.0], [-71.2, -35.0], [-70.8, -34.0],
+          [-70.5, -33.0], [-70.5, -32.0], [-71.0, -31.0], [-71.5, -32.0],
+          [-72.0, -33.5], [-72.5, -35.0], [-73.0, -36.5]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "zone": "Csb",
+        "name": "Southwestern Western Australia"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [114.5, -35.2], [116.5, -35.0], [118.5, -34.5], [120.0, -33.5],
+          [120.0, -32.0], [118.5, -31.5], [116.5, -31.5], [115.0, -32.0],
+          [114.5, -33.5], [114.5, -35.2]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "zone": "Csb",
+        "name": "South African Western Cape"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [17.5, -34.8], [19.0, -34.5], [20.5, -34.0], [22.0, -33.7],
+          [23.5, -33.3], [23.5, -32.8], [22.0, -32.5], [20.0, -32.8],
+          [18.5, -33.2], [17.5, -33.5], [17.5, -34.8]
+        ]]
+      }
+    }
+  ]
+}

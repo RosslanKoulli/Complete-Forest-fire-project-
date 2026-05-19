@@ -1,0 +1,796 @@
+2026-05-19 04:25:28,066 [INFO] ============================================================
+2026-05-19 04:25:28,066 [INFO] Portugal training-set extension via ICNF + ERA5-Land
+2026-05-19 04:25:28,066 [INFO] ============================================================
+2026-05-19 04:25:28,066 [INFO] Started at 2026-05-19T04:25:28.066036
+2026-05-19 04:25:28,066 [INFO] Target years: [2017, 2018, 2019, 2020]
+2026-05-19 04:25:28,067 [INFO] Target samples: 10000
+2026-05-19 04:25:28,067 [INFO] 
+Step 1: download ICNF CSVs
+2026-05-19 04:25:28,319 [INFO]   2017: downloading from https://raw.githubusercontent.com/cityxdev/icnf_fire_data/main/data/2017.csv
+2026-05-19 04:25:30,067 [INFO]     saved 12625 KB
+2026-05-19 04:25:30,067 [INFO]   2018: downloading from https://raw.githubusercontent.com/cityxdev/icnf_fire_data/main/data/2018.csv
+2026-05-19 04:25:31,464 [INFO]     saved 7463 KB
+2026-05-19 04:25:31,465 [INFO]   2019: downloading from https://raw.githubusercontent.com/cityxdev/icnf_fire_data/main/data/2019.csv
+2026-05-19 04:25:32,808 [INFO]     saved 6591 KB
+2026-05-19 04:25:32,808 [INFO]   2020: downloading from https://raw.githubusercontent.com/cityxdev/icnf_fire_data/main/data/2020.csv
+2026-05-19 04:25:33,962 [INFO]     saved 5850 KB
+2026-05-19 04:25:33,964 [INFO] 
+Step 2: parse ICNF CSVs
+2026-05-19 04:26:59,776 [INFO] ============================================================
+2026-05-19 04:26:59,777 [INFO] Portugal training-set extension via ICNF + ERA5-Land
+2026-05-19 04:26:59,777 [INFO] ============================================================
+2026-05-19 04:26:59,777 [INFO] Started at 2026-05-19T04:26:59.777785
+2026-05-19 04:26:59,777 [INFO] Target years: [2017, 2018, 2019, 2020]
+2026-05-19 04:26:59,777 [INFO] Target samples: 10000
+2026-05-19 04:26:59,777 [INFO] 
+Step 1: download ICNF CSVs
+2026-05-19 04:26:59,944 [INFO]   2017: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\icnf_download\icnf_2017.csv
+2026-05-19 04:26:59,945 [INFO]   2018: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\icnf_download\icnf_2018.csv
+2026-05-19 04:26:59,945 [INFO]   2019: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\icnf_download\icnf_2019.csv
+2026-05-19 04:26:59,945 [INFO]   2020: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\icnf_download\icnf_2020.csv
+2026-05-19 04:26:59,945 [INFO] 
+Step 2: parse ICNF CSVs
+2026-05-19 04:27:00,219 [INFO]   icnf_2017.csv: 21006 rows, columns: ['id', 'DISTRITO', 'TIPO', 'ANO', 'AREAPOV', 'AREAMATO', 'AREAAGRIC', 'AREATOTAL']...
+2026-05-19 04:27:00,355 [INFO]   icnf_2018.csv: 12274 rows, columns: ['id', 'DISTRITO', 'TIPO', 'ANO', 'AREAPOV', 'AREAMATO', 'AREAAGRIC', 'AREATOTAL']...
+2026-05-19 04:27:00,498 [INFO]   icnf_2019.csv: 10832 rows, columns: ['id', 'DISTRITO', 'TIPO', 'ANO', 'AREAPOV', 'AREAMATO', 'AREAAGRIC', 'AREATOTAL']...
+2026-05-19 04:27:00,615 [INFO]   icnf_2020.csv: 9619 rows, columns: ['id', 'DISTRITO', 'TIPO', 'ANO', 'AREAPOV', 'AREAMATO', 'AREAAGRIC', 'AREATOTAL']...
+2026-05-19 04:27:00,640 [INFO] Combined ICNF: 53731 rows
+2026-05-19 04:27:00,640 [INFO]   Using lat='Y', lon='X', date='DATAALERTA', area='AREAPOV'
+2026-05-19 04:27:00,664 [INFO]   After dropping incomplete rows: 53731 / 53731
+2026-05-19 04:27:00,666 [INFO]   Within Portugal bbox: 0
+2026-05-19 04:27:00,680 [ERROR] ICNF CSVs contained no usable rows; aborting
+2026-05-19 04:32:56,594 [INFO] ============================================================
+2026-05-19 04:32:56,595 [INFO] Portugal training-set extension via ICNF + ERA5-Land
+2026-05-19 04:32:56,595 [INFO] ============================================================
+2026-05-19 04:32:56,595 [INFO] Started at 2026-05-19T04:32:56.595867
+2026-05-19 04:32:56,595 [INFO] Target years: [2017, 2018, 2019, 2020]
+2026-05-19 04:32:56,595 [INFO] Target samples: 10000
+2026-05-19 04:32:56,595 [INFO] 
+Step 1: download ICNF CSVs
+2026-05-19 04:32:56,767 [INFO]   2017: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\icnf_download\icnf_2017.csv
+2026-05-19 04:32:56,767 [INFO]   2018: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\icnf_download\icnf_2018.csv
+2026-05-19 04:32:56,767 [INFO]   2019: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\icnf_download\icnf_2019.csv
+2026-05-19 04:32:56,767 [INFO]   2020: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\icnf_download\icnf_2020.csv
+2026-05-19 04:32:56,767 [INFO] 
+Step 2: parse ICNF CSVs
+2026-05-19 04:32:57,046 [INFO]   icnf_2017.csv: 21006 rows, columns: ['id', 'DISTRITO', 'TIPO', 'ANO', 'AREAPOV', 'AREAMATO', 'AREAAGRIC', 'AREATOTAL']...
+2026-05-19 04:32:57,186 [INFO]   icnf_2018.csv: 12274 rows, columns: ['id', 'DISTRITO', 'TIPO', 'ANO', 'AREAPOV', 'AREAMATO', 'AREAAGRIC', 'AREATOTAL']...
+2026-05-19 04:32:57,323 [INFO]   icnf_2019.csv: 10832 rows, columns: ['id', 'DISTRITO', 'TIPO', 'ANO', 'AREAPOV', 'AREAMATO', 'AREAAGRIC', 'AREATOTAL']...
+2026-05-19 04:32:57,440 [INFO]   icnf_2020.csv: 9619 rows, columns: ['id', 'DISTRITO', 'TIPO', 'ANO', 'AREAPOV', 'AREAMATO', 'AREAAGRIC', 'AREATOTAL']...
+2026-05-19 04:32:57,466 [INFO] Combined ICNF: 53731 rows
+2026-05-19 04:32:57,466 [INFO]   Using lat='Y', lon='X', date='DATAALERTA', area='AREAPOV'
+2026-05-19 04:32:57,498 [INFO]   After dropping incomplete rows: 53731 / 53731
+2026-05-19 04:32:57,500 [INFO]   Within Portugal bbox: 0
+2026-05-19 04:32:57,516 [ERROR] ICNF CSVs contained no usable rows; aborting
+2026-05-19 04:39:39,811 [INFO] ============================================================
+2026-05-19 04:39:39,811 [INFO] Portugal training-set extension via ICNF + ERA5-Land
+2026-05-19 04:39:39,811 [INFO] ============================================================
+2026-05-19 04:39:39,811 [INFO] Started at 2026-05-19T04:39:39.811686
+2026-05-19 04:39:39,811 [INFO] Target years: [2017, 2018, 2019, 2020]
+2026-05-19 04:39:39,811 [INFO] Target samples: 10000
+2026-05-19 04:39:39,811 [INFO] 
+Step 1: download ICNF CSVs
+2026-05-19 04:39:39,956 [INFO]   2017: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\icnf_download\icnf_2017.csv
+2026-05-19 04:39:39,956 [INFO]   2018: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\icnf_download\icnf_2018.csv
+2026-05-19 04:39:39,956 [INFO]   2019: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\icnf_download\icnf_2019.csv
+2026-05-19 04:39:39,956 [INFO]   2020: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\icnf_download\icnf_2020.csv
+2026-05-19 04:39:39,956 [INFO] 
+Step 2: parse ICNF CSVs
+2026-05-19 04:39:40,224 [INFO]   icnf_2017.csv: 21006 rows, columns: ['id', 'DISTRITO', 'TIPO', 'ANO', 'AREAPOV', 'AREAMATO', 'AREAAGRIC', 'AREATOTAL']...
+2026-05-19 04:39:40,362 [INFO]   icnf_2018.csv: 12274 rows, columns: ['id', 'DISTRITO', 'TIPO', 'ANO', 'AREAPOV', 'AREAMATO', 'AREAAGRIC', 'AREATOTAL']...
+2026-05-19 04:39:40,495 [INFO]   icnf_2019.csv: 10832 rows, columns: ['id', 'DISTRITO', 'TIPO', 'ANO', 'AREAPOV', 'AREAMATO', 'AREAAGRIC', 'AREATOTAL']...
+2026-05-19 04:39:40,623 [INFO]   icnf_2020.csv: 9619 rows, columns: ['id', 'DISTRITO', 'TIPO', 'ANO', 'AREAPOV', 'AREAMATO', 'AREAAGRIC', 'AREATOTAL']...
+2026-05-19 04:39:40,647 [INFO] Combined ICNF: 53731 rows
+2026-05-19 04:39:40,647 [INFO]   Using lat='Y', lon='X', date='DATAALERTA', area='AREAPOV'
+2026-05-19 04:39:40,663 [INFO]   After dropping incomplete rows: 53731 / 53731
+2026-05-19 04:39:40,669 [INFO]   Coordinates look projected (not degrees); reprojecting to WGS84 lat/lon
+2026-05-19 04:39:40,670 [ERROR] pyproj is required to reproject ICNF coordinates.
+2026-05-19 04:39:40,670 [ERROR] Install with: python -m pip install pyproj
+2026-05-19 04:39:40,684 [ERROR] ICNF CSVs contained no usable rows; aborting
+2026-05-19 04:40:49,367 [INFO] ============================================================
+2026-05-19 04:40:49,367 [INFO] Portugal training-set extension via ICNF + ERA5-Land
+2026-05-19 04:40:49,367 [INFO] ============================================================
+2026-05-19 04:40:49,367 [INFO] Started at 2026-05-19T04:40:49.367752
+2026-05-19 04:40:49,367 [INFO] Target years: [2017, 2018, 2019, 2020]
+2026-05-19 04:40:49,367 [INFO] Target samples: 10000
+2026-05-19 04:40:49,367 [INFO] 
+Step 1: download ICNF CSVs
+2026-05-19 04:40:49,508 [INFO]   2017: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\icnf_download\icnf_2017.csv
+2026-05-19 04:40:49,508 [INFO]   2018: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\icnf_download\icnf_2018.csv
+2026-05-19 04:40:49,508 [INFO]   2019: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\icnf_download\icnf_2019.csv
+2026-05-19 04:40:49,508 [INFO]   2020: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\icnf_download\icnf_2020.csv
+2026-05-19 04:40:49,508 [INFO] 
+Step 2: parse ICNF CSVs
+2026-05-19 04:40:49,782 [INFO]   icnf_2017.csv: 21006 rows, columns: ['id', 'DISTRITO', 'TIPO', 'ANO', 'AREAPOV', 'AREAMATO', 'AREAAGRIC', 'AREATOTAL']...
+2026-05-19 04:40:49,922 [INFO]   icnf_2018.csv: 12274 rows, columns: ['id', 'DISTRITO', 'TIPO', 'ANO', 'AREAPOV', 'AREAMATO', 'AREAAGRIC', 'AREATOTAL']...
+2026-05-19 04:40:50,052 [INFO]   icnf_2019.csv: 10832 rows, columns: ['id', 'DISTRITO', 'TIPO', 'ANO', 'AREAPOV', 'AREAMATO', 'AREAAGRIC', 'AREATOTAL']...
+2026-05-19 04:40:50,164 [INFO]   icnf_2020.csv: 9619 rows, columns: ['id', 'DISTRITO', 'TIPO', 'ANO', 'AREAPOV', 'AREAMATO', 'AREAAGRIC', 'AREATOTAL']...
+2026-05-19 04:40:50,190 [INFO] Combined ICNF: 53731 rows
+2026-05-19 04:40:50,190 [INFO]   Using lat='Y', lon='X', date='DATAALERTA', area='AREAPOV'
+2026-05-19 04:40:50,203 [INFO]   After dropping incomplete rows: 53731 / 53731
+2026-05-19 04:40:50,205 [INFO]   Coordinates look projected (not degrees); reprojecting to WGS84 lat/lon
+2026-05-19 04:40:50,205 [ERROR] pyproj is required to reproject ICNF coordinates.
+2026-05-19 04:40:50,205 [ERROR] Install with: python -m pip install pyproj
+2026-05-19 04:40:50,220 [ERROR] ICNF CSVs contained no usable rows; aborting
+2026-05-19 04:41:53,455 [INFO] ============================================================
+2026-05-19 04:41:53,455 [INFO] Portugal training-set extension via ICNF + ERA5-Land
+2026-05-19 04:41:53,455 [INFO] ============================================================
+2026-05-19 04:41:53,455 [INFO] Started at 2026-05-19T04:41:53.455298
+2026-05-19 04:41:53,455 [INFO] Target years: [2017, 2018, 2019, 2020]
+2026-05-19 04:41:53,456 [INFO] Target samples: 10000
+2026-05-19 04:41:53,456 [INFO] 
+Step 1: download ICNF CSVs
+2026-05-19 04:41:53,587 [INFO]   2017: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\icnf_download\icnf_2017.csv
+2026-05-19 04:41:53,588 [INFO]   2018: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\icnf_download\icnf_2018.csv
+2026-05-19 04:41:53,588 [INFO]   2019: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\icnf_download\icnf_2019.csv
+2026-05-19 04:41:53,588 [INFO]   2020: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\icnf_download\icnf_2020.csv
+2026-05-19 04:41:53,588 [INFO] 
+Step 2: parse ICNF CSVs
+2026-05-19 04:41:53,865 [INFO]   icnf_2017.csv: 21006 rows, columns: ['id', 'DISTRITO', 'TIPO', 'ANO', 'AREAPOV', 'AREAMATO', 'AREAAGRIC', 'AREATOTAL']...
+2026-05-19 04:41:54,003 [INFO]   icnf_2018.csv: 12274 rows, columns: ['id', 'DISTRITO', 'TIPO', 'ANO', 'AREAPOV', 'AREAMATO', 'AREAAGRIC', 'AREATOTAL']...
+2026-05-19 04:41:54,137 [INFO]   icnf_2019.csv: 10832 rows, columns: ['id', 'DISTRITO', 'TIPO', 'ANO', 'AREAPOV', 'AREAMATO', 'AREAAGRIC', 'AREATOTAL']...
+2026-05-19 04:41:54,257 [INFO]   icnf_2020.csv: 9619 rows, columns: ['id', 'DISTRITO', 'TIPO', 'ANO', 'AREAPOV', 'AREAMATO', 'AREAAGRIC', 'AREATOTAL']...
+2026-05-19 04:41:54,281 [INFO] Combined ICNF: 53731 rows
+2026-05-19 04:41:54,281 [INFO]   Using lat='Y', lon='X', date='DATAALERTA', area='AREAPOV'
+2026-05-19 04:41:54,294 [INFO]   After dropping incomplete rows: 53731 / 53731
+2026-05-19 04:41:54,295 [INFO]   Coordinates look projected (not degrees); reprojecting to WGS84 lat/lon
+2026-05-19 04:41:54,296 [ERROR] pyproj is required to reproject ICNF coordinates.
+2026-05-19 04:41:54,296 [ERROR] Install with: python -m pip install pyproj
+2026-05-19 04:41:54,310 [ERROR] ICNF CSVs contained no usable rows; aborting
+2026-05-19 04:43:09,913 [INFO] ============================================================
+2026-05-19 04:43:09,913 [INFO] Portugal training-set extension via ICNF + ERA5-Land
+2026-05-19 04:43:09,913 [INFO] ============================================================
+2026-05-19 04:43:09,913 [INFO] Started at 2026-05-19T04:43:09.913938
+2026-05-19 04:43:09,913 [INFO] Target years: [2017, 2018, 2019, 2020]
+2026-05-19 04:43:09,913 [INFO] Target samples: 10000
+2026-05-19 04:43:09,913 [INFO] 
+Step 1: download ICNF CSVs
+2026-05-19 04:43:10,050 [INFO]   2017: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\icnf_download\icnf_2017.csv
+2026-05-19 04:43:10,050 [INFO]   2018: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\icnf_download\icnf_2018.csv
+2026-05-19 04:43:10,050 [INFO]   2019: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\icnf_download\icnf_2019.csv
+2026-05-19 04:43:10,050 [INFO]   2020: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\icnf_download\icnf_2020.csv
+2026-05-19 04:43:10,050 [INFO] 
+Step 2: parse ICNF CSVs
+2026-05-19 04:43:10,319 [INFO]   icnf_2017.csv: 21006 rows, columns: ['id', 'DISTRITO', 'TIPO', 'ANO', 'AREAPOV', 'AREAMATO', 'AREAAGRIC', 'AREATOTAL']...
+2026-05-19 04:43:10,472 [INFO]   icnf_2018.csv: 12274 rows, columns: ['id', 'DISTRITO', 'TIPO', 'ANO', 'AREAPOV', 'AREAMATO', 'AREAAGRIC', 'AREATOTAL']...
+2026-05-19 04:43:10,603 [INFO]   icnf_2019.csv: 10832 rows, columns: ['id', 'DISTRITO', 'TIPO', 'ANO', 'AREAPOV', 'AREAMATO', 'AREAAGRIC', 'AREATOTAL']...
+2026-05-19 04:43:10,719 [INFO]   icnf_2020.csv: 9619 rows, columns: ['id', 'DISTRITO', 'TIPO', 'ANO', 'AREAPOV', 'AREAMATO', 'AREAAGRIC', 'AREATOTAL']...
+2026-05-19 04:43:10,743 [INFO] Combined ICNF: 53731 rows
+2026-05-19 04:43:10,743 [INFO]   Using lat='Y', lon='X', date='DATAALERTA', area='AREAPOV'
+2026-05-19 04:43:10,756 [INFO]   After dropping incomplete rows: 53731 / 53731
+2026-05-19 04:43:10,757 [INFO]   Coordinates look projected (not degrees); reprojecting to WGS84 lat/lon
+2026-05-19 04:43:10,758 [ERROR] pyproj is required to reproject ICNF coordinates.
+2026-05-19 04:43:10,758 [ERROR] Install with: python -m pip install pyproj
+2026-05-19 04:43:10,773 [ERROR] ICNF CSVs contained no usable rows; aborting
+2026-05-19 04:46:02,057 [INFO] ============================================================
+2026-05-19 04:46:02,057 [INFO] Portugal training-set extension via ICNF + ERA5-Land
+2026-05-19 04:46:02,057 [INFO] ============================================================
+2026-05-19 04:46:02,057 [INFO] Started at 2026-05-19T04:46:02.057905
+2026-05-19 04:46:02,058 [INFO] Target years: [2017, 2018, 2019, 2020]
+2026-05-19 04:46:02,059 [INFO] Target samples: 10000
+2026-05-19 04:46:02,059 [INFO] 
+Step 1: download ICNF CSVs
+2026-05-19 04:46:02,319 [INFO]   2017: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\icnf_download\icnf_2017.csv
+2026-05-19 04:46:02,320 [INFO]   2018: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\icnf_download\icnf_2018.csv
+2026-05-19 04:46:02,320 [INFO]   2019: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\icnf_download\icnf_2019.csv
+2026-05-19 04:46:02,320 [INFO]   2020: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\icnf_download\icnf_2020.csv
+2026-05-19 04:46:02,320 [INFO] 
+Step 2: parse ICNF CSVs
+2026-05-19 04:46:04,982 [INFO]   icnf_2017.csv: 21006 rows, columns: ['id', 'DISTRITO', 'TIPO', 'ANO', 'AREAPOV', 'AREAMATO', 'AREAAGRIC', 'AREATOTAL']...
+2026-05-19 04:46:05,095 [INFO]   icnf_2018.csv: 12274 rows, columns: ['id', 'DISTRITO', 'TIPO', 'ANO', 'AREAPOV', 'AREAMATO', 'AREAAGRIC', 'AREATOTAL']...
+2026-05-19 04:46:05,200 [INFO]   icnf_2019.csv: 10832 rows, columns: ['id', 'DISTRITO', 'TIPO', 'ANO', 'AREAPOV', 'AREAMATO', 'AREAAGRIC', 'AREATOTAL']...
+2026-05-19 04:46:05,309 [INFO]   icnf_2020.csv: 9619 rows, columns: ['id', 'DISTRITO', 'TIPO', 'ANO', 'AREAPOV', 'AREAMATO', 'AREAAGRIC', 'AREATOTAL']...
+2026-05-19 04:46:05,330 [INFO] Combined ICNF: 53731 rows
+2026-05-19 04:46:05,330 [INFO]   Using lat='Y', lon='X', date='DATAALERTA', area='AREAPOV'
+2026-05-19 04:46:05,377 [INFO]   After dropping incomplete rows: 53731 / 53731
+2026-05-19 04:46:05,379 [INFO]   Coordinates look projected (not degrees); reprojecting to WGS84 lat/lon
+2026-05-19 04:46:05,448 [INFO]   Reprojection complete; sample lat/lon: 39.759, -5.713
+2026-05-19 04:46:05,451 [INFO]   Within Portugal bbox: 7753
+2026-05-19 04:46:05,465 [INFO] 
+Step 3: build balanced sample
+2026-05-19 04:46:05,471 [INFO]   Fire-season fire events: 4851
+2026-05-19 04:46:05,471 [WARNING] Requested 5000 fire samples but only 4851 fire-season events available; using all of them
+2026-05-19 04:46:05,923 [INFO]   Generated 5000 no-fire rows after 5000 attempts
+2026-05-19 04:46:05,945 [INFO]   Total samples (before weather extraction): 9851
+2026-05-19 04:46:05,945 [INFO] 
+Step 4: download ERA5-Land weather
+2026-05-19 04:46:05,946 [ERROR] cdsapi package not installed. Run: pip install cdsapi
+2026-05-19 04:46:05,946 [ERROR] No ERA5-Land files downloaded; aborting
+2026-05-19 04:46:47,087 [INFO] ============================================================
+2026-05-19 04:46:47,088 [INFO] Portugal training-set extension via ICNF + ERA5-Land
+2026-05-19 04:46:47,088 [INFO] ============================================================
+2026-05-19 04:46:47,088 [INFO] Started at 2026-05-19T04:46:47.088317
+2026-05-19 04:46:47,088 [INFO] Target years: [2017, 2018, 2019, 2020]
+2026-05-19 04:46:47,089 [INFO] Target samples: 10000
+2026-05-19 04:46:47,089 [INFO] 
+Step 1: download ICNF CSVs
+2026-05-19 04:46:47,214 [INFO]   2017: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\icnf_download\icnf_2017.csv
+2026-05-19 04:46:47,214 [INFO]   2018: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\icnf_download\icnf_2018.csv
+2026-05-19 04:46:47,214 [INFO]   2019: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\icnf_download\icnf_2019.csv
+2026-05-19 04:46:47,215 [INFO]   2020: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\icnf_download\icnf_2020.csv
+2026-05-19 04:46:47,215 [INFO] 
+Step 2: parse ICNF CSVs
+2026-05-19 04:46:47,816 [INFO]   icnf_2017.csv: 21006 rows, columns: ['id', 'DISTRITO', 'TIPO', 'ANO', 'AREAPOV', 'AREAMATO', 'AREAAGRIC', 'AREATOTAL']...
+2026-05-19 04:46:47,936 [INFO]   icnf_2018.csv: 12274 rows, columns: ['id', 'DISTRITO', 'TIPO', 'ANO', 'AREAPOV', 'AREAMATO', 'AREAAGRIC', 'AREATOTAL']...
+2026-05-19 04:46:48,039 [INFO]   icnf_2019.csv: 10832 rows, columns: ['id', 'DISTRITO', 'TIPO', 'ANO', 'AREAPOV', 'AREAMATO', 'AREAAGRIC', 'AREATOTAL']...
+2026-05-19 04:46:48,134 [INFO]   icnf_2020.csv: 9619 rows, columns: ['id', 'DISTRITO', 'TIPO', 'ANO', 'AREAPOV', 'AREAMATO', 'AREAAGRIC', 'AREATOTAL']...
+2026-05-19 04:46:48,151 [INFO] Combined ICNF: 53731 rows
+2026-05-19 04:46:48,152 [INFO]   Using lat='Y', lon='X', date='DATAALERTA', area='AREAPOV'
+2026-05-19 04:46:48,178 [INFO]   After dropping incomplete rows: 53731 / 53731
+2026-05-19 04:46:48,180 [INFO]   Coordinates look projected (not degrees); reprojecting to WGS84 lat/lon
+2026-05-19 04:46:48,263 [INFO]   Reprojection complete; sample lat/lon: 39.759, -5.713
+2026-05-19 04:46:48,266 [INFO]   Within Portugal bbox: 7753
+2026-05-19 04:46:48,280 [INFO] 
+Step 3: build balanced sample
+2026-05-19 04:46:48,282 [INFO]   Fire-season fire events: 4851
+2026-05-19 04:46:48,282 [WARNING] Requested 5000 fire samples but only 4851 fire-season events available; using all of them
+2026-05-19 04:46:48,813 [INFO]   Generated 5000 no-fire rows after 5000 attempts
+2026-05-19 04:46:48,838 [INFO]   Total samples (before weather extraction): 9851
+2026-05-19 04:46:48,838 [INFO] 
+Step 4: download ERA5-Land weather
+2026-05-19 04:46:48,873 [ERROR] CDS API key file not found at C:\Users\hp\.cdsapirc
+2026-05-19 04:46:48,873 [ERROR] Create the file with your URL and key from https://cds.climate.copernicus.eu/profile
+2026-05-19 04:46:48,873 [ERROR] No ERA5-Land files downloaded; aborting
+2026-05-19 04:48:59,084 [INFO] ============================================================
+2026-05-19 04:48:59,084 [INFO] Portugal training-set extension via ICNF + ERA5-Land
+2026-05-19 04:48:59,085 [INFO] ============================================================
+2026-05-19 04:48:59,085 [INFO] Started at 2026-05-19T04:48:59.085858
+2026-05-19 04:48:59,085 [INFO] Target years: [2017, 2018, 2019, 2020]
+2026-05-19 04:48:59,085 [INFO] Target samples: 10000
+2026-05-19 04:48:59,085 [INFO] 
+Step 1: download ICNF CSVs
+2026-05-19 04:48:59,219 [INFO]   2017: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\icnf_download\icnf_2017.csv
+2026-05-19 04:48:59,219 [INFO]   2018: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\icnf_download\icnf_2018.csv
+2026-05-19 04:48:59,219 [INFO]   2019: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\icnf_download\icnf_2019.csv
+2026-05-19 04:48:59,219 [INFO]   2020: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\icnf_download\icnf_2020.csv
+2026-05-19 04:48:59,220 [INFO] 
+Step 2: parse ICNF CSVs
+2026-05-19 04:48:59,842 [INFO]   icnf_2017.csv: 21006 rows, columns: ['id', 'DISTRITO', 'TIPO', 'ANO', 'AREAPOV', 'AREAMATO', 'AREAAGRIC', 'AREATOTAL']...
+2026-05-19 04:48:59,962 [INFO]   icnf_2018.csv: 12274 rows, columns: ['id', 'DISTRITO', 'TIPO', 'ANO', 'AREAPOV', 'AREAMATO', 'AREAAGRIC', 'AREATOTAL']...
+2026-05-19 04:49:00,079 [INFO]   icnf_2019.csv: 10832 rows, columns: ['id', 'DISTRITO', 'TIPO', 'ANO', 'AREAPOV', 'AREAMATO', 'AREAAGRIC', 'AREATOTAL']...
+2026-05-19 04:49:00,176 [INFO]   icnf_2020.csv: 9619 rows, columns: ['id', 'DISTRITO', 'TIPO', 'ANO', 'AREAPOV', 'AREAMATO', 'AREAAGRIC', 'AREATOTAL']...
+2026-05-19 04:49:00,194 [INFO] Combined ICNF: 53731 rows
+2026-05-19 04:49:00,194 [INFO]   Using lat='Y', lon='X', date='DATAALERTA', area='AREAPOV'
+2026-05-19 04:49:00,210 [INFO]   After dropping incomplete rows: 53731 / 53731
+2026-05-19 04:49:00,212 [INFO]   Coordinates look projected (not degrees); reprojecting to WGS84 lat/lon
+2026-05-19 04:49:00,281 [INFO]   Reprojection complete; sample lat/lon: 39.759, -5.713
+2026-05-19 04:49:00,283 [INFO]   Within Portugal bbox: 7753
+2026-05-19 04:49:00,296 [INFO] 
+Step 3: build balanced sample
+2026-05-19 04:49:00,298 [INFO]   Fire-season fire events: 4851
+2026-05-19 04:49:00,298 [WARNING] Requested 5000 fire samples but only 4851 fire-season events available; using all of them
+2026-05-19 04:49:00,756 [INFO]   Generated 5000 no-fire rows after 5000 attempts
+2026-05-19 04:49:00,778 [INFO]   Total samples (before weather extraction): 9851
+2026-05-19 04:49:00,778 [INFO] 
+Step 4: download ERA5-Land weather
+2026-05-19 04:49:00,798 [ERROR] CDS API key file not found at C:\Users\hp\.cdsapirc
+2026-05-19 04:49:00,798 [ERROR] Create the file with your URL and key from https://cds.climate.copernicus.eu/profile
+2026-05-19 04:49:00,798 [ERROR] No ERA5-Land files downloaded; aborting
+2026-05-19 04:50:51,366 [INFO] ============================================================
+2026-05-19 04:50:51,366 [INFO] Portugal training-set extension via ICNF + ERA5-Land
+2026-05-19 04:50:51,367 [INFO] ============================================================
+2026-05-19 04:50:51,367 [INFO] Started at 2026-05-19T04:50:51.367245
+2026-05-19 04:50:51,367 [INFO] Target years: [2017, 2018, 2019, 2020]
+2026-05-19 04:50:51,367 [INFO] Target samples: 10000
+2026-05-19 04:50:51,367 [INFO] 
+Step 1: download ICNF CSVs
+2026-05-19 04:50:51,485 [INFO]   2017: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\icnf_download\icnf_2017.csv
+2026-05-19 04:50:51,485 [INFO]   2018: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\icnf_download\icnf_2018.csv
+2026-05-19 04:50:51,485 [INFO]   2019: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\icnf_download\icnf_2019.csv
+2026-05-19 04:50:51,486 [INFO]   2020: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\icnf_download\icnf_2020.csv
+2026-05-19 04:50:51,486 [INFO] 
+Step 2: parse ICNF CSVs
+2026-05-19 04:50:52,059 [INFO]   icnf_2017.csv: 21006 rows, columns: ['id', 'DISTRITO', 'TIPO', 'ANO', 'AREAPOV', 'AREAMATO', 'AREAAGRIC', 'AREATOTAL']...
+2026-05-19 04:50:52,187 [INFO]   icnf_2018.csv: 12274 rows, columns: ['id', 'DISTRITO', 'TIPO', 'ANO', 'AREAPOV', 'AREAMATO', 'AREAAGRIC', 'AREATOTAL']...
+2026-05-19 04:50:52,293 [INFO]   icnf_2019.csv: 10832 rows, columns: ['id', 'DISTRITO', 'TIPO', 'ANO', 'AREAPOV', 'AREAMATO', 'AREAAGRIC', 'AREATOTAL']...
+2026-05-19 04:50:52,386 [INFO]   icnf_2020.csv: 9619 rows, columns: ['id', 'DISTRITO', 'TIPO', 'ANO', 'AREAPOV', 'AREAMATO', 'AREAAGRIC', 'AREATOTAL']...
+2026-05-19 04:50:52,404 [INFO] Combined ICNF: 53731 rows
+2026-05-19 04:50:52,404 [INFO]   Using lat='Y', lon='X', date='DATAALERTA', area='AREAPOV'
+2026-05-19 04:50:52,421 [INFO]   After dropping incomplete rows: 53731 / 53731
+2026-05-19 04:50:52,422 [INFO]   Coordinates look projected (not degrees); reprojecting to WGS84 lat/lon
+2026-05-19 04:50:52,489 [INFO]   Reprojection complete; sample lat/lon: 39.759, -5.713
+2026-05-19 04:50:52,491 [INFO]   Within Portugal bbox: 7753
+2026-05-19 04:50:52,505 [INFO] 
+Step 3: build balanced sample
+2026-05-19 04:50:52,507 [INFO]   Fire-season fire events: 4851
+2026-05-19 04:50:52,507 [WARNING] Requested 5000 fire samples but only 4851 fire-season events available; using all of them
+2026-05-19 04:50:52,958 [INFO]   Generated 5000 no-fire rows after 5000 attempts
+2026-05-19 04:50:52,980 [INFO]   Total samples (before weather extraction): 9851
+2026-05-19 04:50:52,981 [INFO] 
+Step 4: download ERA5-Land weather
+2026-05-19 04:50:52,999 [ERROR] CDS API key file not found at C:\Users\hp\.cdsapirc
+2026-05-19 04:50:52,999 [ERROR] Create the file with your URL and key from https://cds.climate.copernicus.eu/profile
+2026-05-19 04:50:52,999 [ERROR] No ERA5-Land files downloaded; aborting
+2026-05-19 04:53:28,776 [INFO] ============================================================
+2026-05-19 04:53:28,776 [INFO] Portugal training-set extension via ICNF + ERA5-Land
+2026-05-19 04:53:28,777 [INFO] ============================================================
+2026-05-19 04:53:28,777 [INFO] Started at 2026-05-19T04:53:28.777308
+2026-05-19 04:53:28,777 [INFO] Target years: [2017, 2018, 2019, 2020]
+2026-05-19 04:53:28,777 [INFO] Target samples: 10000
+2026-05-19 04:53:28,777 [INFO] 
+Step 1: download ICNF CSVs
+2026-05-19 04:53:28,904 [INFO]   2017: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\icnf_download\icnf_2017.csv
+2026-05-19 04:53:28,905 [INFO]   2018: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\icnf_download\icnf_2018.csv
+2026-05-19 04:53:28,905 [INFO]   2019: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\icnf_download\icnf_2019.csv
+2026-05-19 04:53:28,905 [INFO]   2020: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\icnf_download\icnf_2020.csv
+2026-05-19 04:53:28,906 [INFO] 
+Step 2: parse ICNF CSVs
+2026-05-19 04:53:29,501 [INFO]   icnf_2017.csv: 21006 rows, columns: ['id', 'DISTRITO', 'TIPO', 'ANO', 'AREAPOV', 'AREAMATO', 'AREAAGRIC', 'AREATOTAL']...
+2026-05-19 04:53:29,621 [INFO]   icnf_2018.csv: 12274 rows, columns: ['id', 'DISTRITO', 'TIPO', 'ANO', 'AREAPOV', 'AREAMATO', 'AREAAGRIC', 'AREATOTAL']...
+2026-05-19 04:53:29,733 [INFO]   icnf_2019.csv: 10832 rows, columns: ['id', 'DISTRITO', 'TIPO', 'ANO', 'AREAPOV', 'AREAMATO', 'AREAAGRIC', 'AREATOTAL']...
+2026-05-19 04:53:29,837 [INFO]   icnf_2020.csv: 9619 rows, columns: ['id', 'DISTRITO', 'TIPO', 'ANO', 'AREAPOV', 'AREAMATO', 'AREAAGRIC', 'AREATOTAL']...
+2026-05-19 04:53:29,856 [INFO] Combined ICNF: 53731 rows
+2026-05-19 04:53:29,857 [INFO]   Using lat='Y', lon='X', date='DATAALERTA', area='AREAPOV'
+2026-05-19 04:53:29,873 [INFO]   After dropping incomplete rows: 53731 / 53731
+2026-05-19 04:53:29,875 [INFO]   Coordinates look projected (not degrees); reprojecting to WGS84 lat/lon
+2026-05-19 04:53:29,946 [INFO]   Reprojection complete; sample lat/lon: 39.759, -5.713
+2026-05-19 04:53:29,948 [INFO]   Within Portugal bbox: 7753
+2026-05-19 04:53:29,962 [INFO] 
+Step 3: build balanced sample
+2026-05-19 04:53:29,964 [INFO]   Fire-season fire events: 4851
+2026-05-19 04:53:29,964 [WARNING] Requested 5000 fire samples but only 4851 fire-season events available; using all of them
+2026-05-19 04:53:30,433 [INFO]   Generated 5000 no-fire rows after 5000 attempts
+2026-05-19 04:53:30,452 [INFO]   Total samples (before weather extraction): 9851
+2026-05-19 04:53:30,453 [INFO] 
+Step 4: download ERA5-Land weather
+2026-05-19 04:56:52,550 [INFO] ============================================================
+2026-05-19 04:56:52,550 [INFO] Portugal training-set extension via ICNF + ERA5-Land
+2026-05-19 04:56:52,551 [INFO] ============================================================
+2026-05-19 04:56:52,551 [INFO] Started at 2026-05-19T04:56:52.551818
+2026-05-19 04:56:52,551 [INFO] Target years: [2017, 2018, 2019, 2020]
+2026-05-19 04:56:52,551 [INFO] Target samples: 10000
+2026-05-19 04:56:52,552 [INFO] 
+Step 1: download ICNF CSVs
+2026-05-19 04:56:52,679 [INFO]   2017: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\icnf_download\icnf_2017.csv
+2026-05-19 04:56:52,679 [INFO]   2018: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\icnf_download\icnf_2018.csv
+2026-05-19 04:56:52,680 [INFO]   2019: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\icnf_download\icnf_2019.csv
+2026-05-19 04:56:52,680 [INFO]   2020: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\icnf_download\icnf_2020.csv
+2026-05-19 04:56:52,680 [INFO] 
+Step 2: parse ICNF CSVs
+2026-05-19 04:56:53,301 [INFO]   icnf_2017.csv: 21006 rows, columns: ['id', 'DISTRITO', 'TIPO', 'ANO', 'AREAPOV', 'AREAMATO', 'AREAAGRIC', 'AREATOTAL']...
+2026-05-19 04:56:53,421 [INFO]   icnf_2018.csv: 12274 rows, columns: ['id', 'DISTRITO', 'TIPO', 'ANO', 'AREAPOV', 'AREAMATO', 'AREAAGRIC', 'AREATOTAL']...
+2026-05-19 04:56:53,524 [INFO]   icnf_2019.csv: 10832 rows, columns: ['id', 'DISTRITO', 'TIPO', 'ANO', 'AREAPOV', 'AREAMATO', 'AREAAGRIC', 'AREATOTAL']...
+2026-05-19 04:56:53,617 [INFO]   icnf_2020.csv: 9619 rows, columns: ['id', 'DISTRITO', 'TIPO', 'ANO', 'AREAPOV', 'AREAMATO', 'AREAAGRIC', 'AREATOTAL']...
+2026-05-19 04:56:53,635 [INFO] Combined ICNF: 53731 rows
+2026-05-19 04:56:53,635 [INFO]   Using lat='Y', lon='X', date='DATAALERTA', area='AREAPOV'
+2026-05-19 04:56:53,652 [INFO]   After dropping incomplete rows: 53731 / 53731
+2026-05-19 04:56:53,653 [INFO]   Coordinates look projected (not degrees); reprojecting to WGS84 lat/lon
+2026-05-19 04:56:53,726 [INFO]   Reprojection complete; sample lat/lon: 39.759, -5.713
+2026-05-19 04:56:53,728 [INFO]   Within Portugal bbox: 7753
+2026-05-19 04:56:53,741 [INFO] 
+Step 3: build balanced sample
+2026-05-19 04:56:53,743 [INFO]   Fire-season fire events: 4851
+2026-05-19 04:56:53,744 [WARNING] Requested 5000 fire samples but only 4851 fire-season events available; using all of them
+2026-05-19 04:56:54,195 [INFO]   Generated 5000 no-fire rows after 5000 attempts
+2026-05-19 04:56:54,215 [INFO]   Total samples (before weather extraction): 9851
+2026-05-19 04:56:54,215 [INFO] 
+Step 4: download ERA5-Land weather
+2026-05-19 04:58:35,456 [INFO] ============================================================
+2026-05-19 04:58:35,456 [INFO] Portugal training-set extension via ICNF + ERA5-Land
+2026-05-19 04:58:35,456 [INFO] ============================================================
+2026-05-19 04:58:35,456 [INFO] Started at 2026-05-19T04:58:35.456802
+2026-05-19 04:58:35,457 [INFO] Target years: [2017, 2018, 2019, 2020]
+2026-05-19 04:58:35,457 [INFO] Target samples: 10000
+2026-05-19 04:58:35,457 [INFO] 
+Step 1: download ICNF CSVs
+2026-05-19 04:58:35,586 [INFO]   2017: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\icnf_download\icnf_2017.csv
+2026-05-19 04:58:35,586 [INFO]   2018: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\icnf_download\icnf_2018.csv
+2026-05-19 04:58:35,587 [INFO]   2019: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\icnf_download\icnf_2019.csv
+2026-05-19 04:58:35,587 [INFO]   2020: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\icnf_download\icnf_2020.csv
+2026-05-19 04:58:35,587 [INFO] 
+Step 2: parse ICNF CSVs
+2026-05-19 04:58:36,190 [INFO]   icnf_2017.csv: 21006 rows, columns: ['id', 'DISTRITO', 'TIPO', 'ANO', 'AREAPOV', 'AREAMATO', 'AREAAGRIC', 'AREATOTAL']...
+2026-05-19 04:58:36,309 [INFO]   icnf_2018.csv: 12274 rows, columns: ['id', 'DISTRITO', 'TIPO', 'ANO', 'AREAPOV', 'AREAMATO', 'AREAAGRIC', 'AREATOTAL']...
+2026-05-19 04:58:36,418 [INFO]   icnf_2019.csv: 10832 rows, columns: ['id', 'DISTRITO', 'TIPO', 'ANO', 'AREAPOV', 'AREAMATO', 'AREAAGRIC', 'AREATOTAL']...
+2026-05-19 04:58:36,519 [INFO]   icnf_2020.csv: 9619 rows, columns: ['id', 'DISTRITO', 'TIPO', 'ANO', 'AREAPOV', 'AREAMATO', 'AREAAGRIC', 'AREATOTAL']...
+2026-05-19 04:58:36,537 [INFO] Combined ICNF: 53731 rows
+2026-05-19 04:58:36,537 [INFO]   Using lat='Y', lon='X', date='DATAALERTA', area='AREAPOV'
+2026-05-19 04:58:36,560 [INFO]   After dropping incomplete rows: 53731 / 53731
+2026-05-19 04:58:36,562 [INFO]   Coordinates look projected (not degrees); reprojecting to WGS84 lat/lon
+2026-05-19 04:58:36,632 [INFO]   Reprojection complete; sample lat/lon: 39.759, -5.713
+2026-05-19 04:58:36,634 [INFO]   Within Portugal bbox: 7753
+2026-05-19 04:58:36,647 [INFO] 
+Step 3: build balanced sample
+2026-05-19 04:58:36,650 [INFO]   Fire-season fire events: 4851
+2026-05-19 04:58:36,650 [WARNING] Requested 5000 fire samples but only 4851 fire-season events available; using all of them
+2026-05-19 04:58:37,120 [INFO]   Generated 5000 no-fire rows after 5000 attempts
+2026-05-19 04:58:37,142 [INFO]   Total samples (before weather extraction): 9851
+2026-05-19 04:58:37,142 [INFO] 
+Step 4: download ERA5-Land weather
+2026-05-19 05:01:06,012 [INFO] ============================================================
+2026-05-19 05:01:06,013 [INFO] Portugal training-set extension via ICNF + ERA5-Land
+2026-05-19 05:01:06,013 [INFO] ============================================================
+2026-05-19 05:01:06,013 [INFO] Started at 2026-05-19T05:01:06.013826
+2026-05-19 05:01:06,013 [INFO] Target years: [2017, 2018, 2019, 2020]
+2026-05-19 05:01:06,014 [INFO] Target samples: 10000
+2026-05-19 05:01:06,014 [INFO] 
+Step 1: download ICNF CSVs
+2026-05-19 05:01:06,136 [INFO]   2017: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\icnf_download\icnf_2017.csv
+2026-05-19 05:01:06,137 [INFO]   2018: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\icnf_download\icnf_2018.csv
+2026-05-19 05:01:06,137 [INFO]   2019: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\icnf_download\icnf_2019.csv
+2026-05-19 05:01:06,137 [INFO]   2020: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\icnf_download\icnf_2020.csv
+2026-05-19 05:01:06,138 [INFO] 
+Step 2: parse ICNF CSVs
+2026-05-19 05:01:06,744 [INFO]   icnf_2017.csv: 21006 rows, columns: ['id', 'DISTRITO', 'TIPO', 'ANO', 'AREAPOV', 'AREAMATO', 'AREAAGRIC', 'AREATOTAL']...
+2026-05-19 05:01:06,866 [INFO]   icnf_2018.csv: 12274 rows, columns: ['id', 'DISTRITO', 'TIPO', 'ANO', 'AREAPOV', 'AREAMATO', 'AREAAGRIC', 'AREATOTAL']...
+2026-05-19 05:01:06,969 [INFO]   icnf_2019.csv: 10832 rows, columns: ['id', 'DISTRITO', 'TIPO', 'ANO', 'AREAPOV', 'AREAMATO', 'AREAAGRIC', 'AREATOTAL']...
+2026-05-19 05:01:07,076 [INFO]   icnf_2020.csv: 9619 rows, columns: ['id', 'DISTRITO', 'TIPO', 'ANO', 'AREAPOV', 'AREAMATO', 'AREAAGRIC', 'AREATOTAL']...
+2026-05-19 05:01:07,095 [INFO] Combined ICNF: 53731 rows
+2026-05-19 05:01:07,095 [INFO]   Using lat='Y', lon='X', date='DATAALERTA', area='AREAPOV'
+2026-05-19 05:01:07,117 [INFO]   After dropping incomplete rows: 53731 / 53731
+2026-05-19 05:01:07,119 [INFO]   Coordinates look projected (not degrees); reprojecting to WGS84 lat/lon
+2026-05-19 05:01:07,189 [INFO]   Reprojection complete; sample lat/lon: 39.759, -5.713
+2026-05-19 05:01:07,191 [INFO]   Within Portugal bbox: 7753
+2026-05-19 05:01:07,205 [INFO] 
+Step 3: build balanced sample
+2026-05-19 05:01:07,207 [INFO]   Fire-season fire events: 4851
+2026-05-19 05:01:07,207 [WARNING] Requested 5000 fire samples but only 4851 fire-season events available; using all of them
+2026-05-19 05:01:07,670 [INFO]   Generated 5000 no-fire rows after 5000 attempts
+2026-05-19 05:01:07,690 [INFO]   Total samples (before weather extraction): 9851
+2026-05-19 05:01:07,690 [INFO] 
+Step 4: download ERA5-Land weather
+2026-05-19 05:01:08,343 [INFO] [2026-05-14T00:00:00Z] Upcoming essential maintenance sessions on Data Stores underlying infrastructure on 19 May. Service disruption expected. For further details, please [visit our forum announcement](https://forum.ecmwf.int/t/upcoming-essential-maintenance-sessions-on-data-stores-underlying-infrastructure/14954).
+2026-05-19 05:01:08,343 [INFO] CDS client initialised
+2026-05-19 05:01:08,343 [INFO]   2017: requesting from CDS (this can take 5-30 minutes)...
+2026-05-19 05:01:08,445 [ERROR]   2017: CDS request failed (401 Client Error: Unauthorized for url: https://cds.climate.copernicus.eu/api/retrieve/v1/processes/reanalysis-era5-land/execution
+Authentication failed
+operation not allowed)
+2026-05-19 05:01:08,445 [INFO]   2018: requesting from CDS (this can take 5-30 minutes)...
+2026-05-19 05:01:08,554 [ERROR]   2018: CDS request failed (401 Client Error: Unauthorized for url: https://cds.climate.copernicus.eu/api/retrieve/v1/processes/reanalysis-era5-land/execution
+Authentication failed
+operation not allowed)
+2026-05-19 05:01:08,554 [INFO]   2019: requesting from CDS (this can take 5-30 minutes)...
+2026-05-19 05:01:09,154 [ERROR]   2019: CDS request failed (401 Client Error: Unauthorized for url: https://cds.climate.copernicus.eu/api/retrieve/v1/processes/reanalysis-era5-land/execution
+Authentication failed
+operation not allowed)
+2026-05-19 05:01:09,155 [INFO]   2020: requesting from CDS (this can take 5-30 minutes)...
+2026-05-19 05:01:09,257 [ERROR]   2020: CDS request failed (401 Client Error: Unauthorized for url: https://cds.climate.copernicus.eu/api/retrieve/v1/processes/reanalysis-era5-land/execution
+Authentication failed
+operation not allowed)
+2026-05-19 05:01:09,257 [ERROR] No ERA5-Land files downloaded; aborting
+2026-05-19 05:08:22,463 [INFO] ============================================================
+2026-05-19 05:08:22,463 [INFO] Portugal training-set extension via ICNF + ERA5-Land
+2026-05-19 05:08:22,463 [INFO] ============================================================
+2026-05-19 05:08:22,463 [INFO] Started at 2026-05-19T05:08:22.463226
+2026-05-19 05:08:22,464 [INFO] Target years: [2017, 2018, 2019, 2020]
+2026-05-19 05:08:22,464 [INFO] Target samples: 10000
+2026-05-19 05:08:22,464 [INFO] 
+Step 1: download ICNF CSVs
+2026-05-19 05:08:22,597 [INFO]   2017: downloading from https://raw.githubusercontent.com/cityxdev/icnf_fire_data/main/data/2017.csv
+2026-05-19 05:08:23,750 [INFO]     saved 12625 KB
+2026-05-19 05:08:23,750 [INFO]   2018: downloading from https://raw.githubusercontent.com/cityxdev/icnf_fire_data/main/data/2018.csv
+2026-05-19 05:08:24,749 [INFO]     saved 7463 KB
+2026-05-19 05:08:24,749 [INFO]   2019: downloading from https://raw.githubusercontent.com/cityxdev/icnf_fire_data/main/data/2019.csv
+2026-05-19 05:08:25,708 [INFO]     saved 6591 KB
+2026-05-19 05:08:25,709 [INFO]   2020: downloading from https://raw.githubusercontent.com/cityxdev/icnf_fire_data/main/data/2020.csv
+2026-05-19 05:08:26,593 [INFO]     saved 5850 KB
+2026-05-19 05:08:26,595 [INFO] 
+Step 2: parse ICNF CSVs
+2026-05-19 05:08:27,216 [INFO]   icnf_2017.csv: 21006 rows, columns: ['id', 'DISTRITO', 'TIPO', 'ANO', 'AREAPOV', 'AREAMATO', 'AREAAGRIC', 'AREATOTAL']...
+2026-05-19 05:08:27,336 [INFO]   icnf_2018.csv: 12274 rows, columns: ['id', 'DISTRITO', 'TIPO', 'ANO', 'AREAPOV', 'AREAMATO', 'AREAAGRIC', 'AREATOTAL']...
+2026-05-19 05:08:27,445 [INFO]   icnf_2019.csv: 10832 rows, columns: ['id', 'DISTRITO', 'TIPO', 'ANO', 'AREAPOV', 'AREAMATO', 'AREAAGRIC', 'AREATOTAL']...
+2026-05-19 05:08:27,542 [INFO]   icnf_2020.csv: 9619 rows, columns: ['id', 'DISTRITO', 'TIPO', 'ANO', 'AREAPOV', 'AREAMATO', 'AREAAGRIC', 'AREATOTAL']...
+2026-05-19 05:08:27,564 [INFO] Combined ICNF: 53731 rows
+2026-05-19 05:08:27,565 [INFO]   Using lat='Y', lon='X', date='DATAALERTA', area='AREAPOV'
+2026-05-19 05:08:27,587 [INFO]   After dropping incomplete rows: 53731 / 53731
+2026-05-19 05:08:27,589 [INFO]   Coordinates look projected (not degrees); reprojecting to WGS84 lat/lon
+2026-05-19 05:08:27,662 [INFO]   Reprojection complete; sample lat/lon: 39.759, -5.713
+2026-05-19 05:08:27,664 [INFO]   Within Portugal bbox: 7753
+2026-05-19 05:08:27,677 [INFO] 
+Step 3: build balanced sample
+2026-05-19 05:08:27,679 [INFO]   Fire-season fire events: 4851
+2026-05-19 05:08:27,680 [WARNING] Requested 5000 fire samples but only 4851 fire-season events available; using all of them
+2026-05-19 05:08:28,192 [INFO]   Generated 5000 no-fire rows after 5000 attempts
+2026-05-19 05:08:28,211 [INFO]   Total samples (before weather extraction): 9851
+2026-05-19 05:08:28,212 [INFO] 
+Step 4: download ERA5-Land weather
+2026-05-19 05:09:51,406 [INFO] ============================================================
+2026-05-19 05:09:51,406 [INFO] Portugal training-set extension via ICNF + ERA5-Land
+2026-05-19 05:09:51,407 [INFO] ============================================================
+2026-05-19 05:09:51,407 [INFO] Started at 2026-05-19T05:09:51.407383
+2026-05-19 05:09:51,407 [INFO] Target years: [2017, 2018, 2019, 2020]
+2026-05-19 05:09:51,407 [INFO] Target samples: 10000
+2026-05-19 05:09:51,407 [INFO] 
+Step 1: download ICNF CSVs
+2026-05-19 05:09:51,526 [INFO]   2017: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\icnf_download\icnf_2017.csv
+2026-05-19 05:09:51,527 [INFO]   2018: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\icnf_download\icnf_2018.csv
+2026-05-19 05:09:51,527 [INFO]   2019: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\icnf_download\icnf_2019.csv
+2026-05-19 05:09:51,527 [INFO]   2020: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\icnf_download\icnf_2020.csv
+2026-05-19 05:09:51,527 [INFO] 
+Step 2: parse ICNF CSVs
+2026-05-19 05:09:52,134 [INFO]   icnf_2017.csv: 21006 rows, columns: ['id', 'DISTRITO', 'TIPO', 'ANO', 'AREAPOV', 'AREAMATO', 'AREAAGRIC', 'AREATOTAL']...
+2026-05-19 05:09:52,250 [INFO]   icnf_2018.csv: 12274 rows, columns: ['id', 'DISTRITO', 'TIPO', 'ANO', 'AREAPOV', 'AREAMATO', 'AREAAGRIC', 'AREATOTAL']...
+2026-05-19 05:09:52,375 [INFO]   icnf_2019.csv: 10832 rows, columns: ['id', 'DISTRITO', 'TIPO', 'ANO', 'AREAPOV', 'AREAMATO', 'AREAAGRIC', 'AREATOTAL']...
+2026-05-19 05:09:52,474 [INFO]   icnf_2020.csv: 9619 rows, columns: ['id', 'DISTRITO', 'TIPO', 'ANO', 'AREAPOV', 'AREAMATO', 'AREAAGRIC', 'AREATOTAL']...
+2026-05-19 05:09:52,493 [INFO] Combined ICNF: 53731 rows
+2026-05-19 05:09:52,493 [INFO]   Using lat='Y', lon='X', date='DATAALERTA', area='AREAPOV'
+2026-05-19 05:09:52,510 [INFO]   After dropping incomplete rows: 53731 / 53731
+2026-05-19 05:09:52,512 [INFO]   Coordinates look projected (not degrees); reprojecting to WGS84 lat/lon
+2026-05-19 05:09:52,581 [INFO]   Reprojection complete; sample lat/lon: 39.759, -5.713
+2026-05-19 05:09:52,583 [INFO]   Within Portugal bbox: 7753
+2026-05-19 05:09:52,597 [INFO] 
+Step 3: build balanced sample
+2026-05-19 05:09:52,598 [INFO]   Fire-season fire events: 4851
+2026-05-19 05:09:52,599 [WARNING] Requested 5000 fire samples but only 4851 fire-season events available; using all of them
+2026-05-19 05:09:53,041 [INFO]   Generated 5000 no-fire rows after 5000 attempts
+2026-05-19 05:09:53,063 [INFO]   Total samples (before weather extraction): 9851
+2026-05-19 05:09:53,063 [INFO] 
+Step 4: download ERA5-Land weather
+2026-05-19 05:09:53,702 [INFO] [2026-05-14T00:00:00Z] Upcoming essential maintenance sessions on Data Stores underlying infrastructure on 19 May. Service disruption expected. For further details, please [visit our forum announcement](https://forum.ecmwf.int/t/upcoming-essential-maintenance-sessions-on-data-stores-underlying-infrastructure/14954).
+2026-05-19 05:09:53,703 [INFO] CDS client initialised
+2026-05-19 05:09:53,703 [INFO]   2017: requesting from CDS (this can take 5-30 minutes)...
+2026-05-19 05:09:53,926 [INFO] [2025-12-11T00:00:00] Please note that a dedicated catalogue entry for this dataset, post-processed and stored in Analysis Ready Cloud Optimized (ARCO) format (Zarr), is available for optimised time-series retrievals (i.e. for retrieving data from selected variables for a single point over an extended period of time in an efficient way). You can discover it [here](https://cds.climate.copernicus.eu/datasets/reanalysis-era5-land-timeseries?tab=overview)
+2026-05-19 05:09:53,926 [INFO] Request ID is 382e4f73-bf11-41ad-a157-12459c6f3f76
+2026-05-19 05:09:53,997 [INFO] status has been updated to accepted
+2026-05-19 05:10:43,824 [INFO] status has been updated to running
+2026-05-19 05:12:46,807 [INFO] status has been updated to successful
+2026-05-19 05:12:46,939 [INFO] Downloading https://object-store.os-api.cci2.ecmwf.int:443/cci2-prod-cache-1/2026-05-19/896da26b8aff794b1660ee936ccd4d7b.nc
+2026-05-19 05:12:48,625 [INFO]   2017: saved 2 MB
+2026-05-19 05:12:48,625 [INFO]   2018: requesting from CDS (this can take 5-30 minutes)...
+2026-05-19 05:12:48,832 [INFO] [2025-12-11T00:00:00] Please note that a dedicated catalogue entry for this dataset, post-processed and stored in Analysis Ready Cloud Optimized (ARCO) format (Zarr), is available for optimised time-series retrievals (i.e. for retrieving data from selected variables for a single point over an extended period of time in an efficient way). You can discover it [here](https://cds.climate.copernicus.eu/datasets/reanalysis-era5-land-timeseries?tab=overview)
+2026-05-19 05:12:48,832 [INFO] Request ID is cf13f6fc-eee4-4b34-8b22-17d31f3d9557
+2026-05-19 05:12:48,894 [INFO] status has been updated to accepted
+2026-05-19 05:13:38,670 [INFO] status has been updated to running
+2026-05-19 05:15:41,587 [INFO] status has been updated to successful
+2026-05-19 05:15:43,240 [INFO] Downloading https://object-store.os-api.cci2.ecmwf.int:443/cci2-prod-cache-2/2026-05-19/55c47b5ff3a3ccf673cc21846b99529e.nc
+2026-05-19 05:15:44,854 [INFO]   2018: saved 2 MB
+2026-05-19 05:15:44,854 [INFO]   2019: requesting from CDS (this can take 5-30 minutes)...
+2026-05-19 05:15:45,012 [INFO] [2025-12-11T00:00:00] Please note that a dedicated catalogue entry for this dataset, post-processed and stored in Analysis Ready Cloud Optimized (ARCO) format (Zarr), is available for optimised time-series retrievals (i.e. for retrieving data from selected variables for a single point over an extended period of time in an efficient way). You can discover it [here](https://cds.climate.copernicus.eu/datasets/reanalysis-era5-land-timeseries?tab=overview)
+2026-05-19 05:15:45,013 [INFO] Request ID is 017dd19b-9e37-4849-b17c-8f3546b7217c
+2026-05-19 05:15:45,082 [INFO] status has been updated to accepted
+2026-05-19 05:16:17,677 [INFO] status has been updated to running
+2026-05-19 05:17:39,097 [INFO] status has been updated to successful
+2026-05-19 05:17:39,232 [INFO] Downloading https://object-store.os-api.cci2.ecmwf.int:443/cci2-prod-cache-2/2026-05-19/14167a66d380c5a8e4aa6ac61e44641.nc
+2026-05-19 05:17:40,819 [INFO]   2019: saved 2 MB
+2026-05-19 05:17:40,819 [INFO]   2020: requesting from CDS (this can take 5-30 minutes)...
+2026-05-19 05:17:40,973 [INFO] [2025-12-11T00:00:00] Please note that a dedicated catalogue entry for this dataset, post-processed and stored in Analysis Ready Cloud Optimized (ARCO) format (Zarr), is available for optimised time-series retrievals (i.e. for retrieving data from selected variables for a single point over an extended period of time in an efficient way). You can discover it [here](https://cds.climate.copernicus.eu/datasets/reanalysis-era5-land-timeseries?tab=overview)
+2026-05-19 05:17:40,974 [INFO] Request ID is fe1feb6c-14fe-4b3b-a799-54a9599af9f2
+2026-05-19 05:17:41,035 [INFO] status has been updated to accepted
+2026-05-19 05:18:30,816 [INFO] status has been updated to running
+2026-05-19 05:19:35,020 [INFO] status has been updated to successful
+2026-05-19 05:19:35,152 [INFO] Downloading https://object-store.os-api.cci2.ecmwf.int:443/cci2-prod-cache-1/2026-05-19/5a3204a3d26606f98dadbce969157838.nc
+2026-05-19 05:19:36,681 [INFO]   2020: saved 2 MB
+2026-05-19 05:19:36,681 [INFO] 
+Step 5: extract weather at each sample point
+2026-05-19 05:19:36,682 [ERROR] xarray and pandas required
+2026-05-19 05:19:36,682 [ERROR] Weather extraction failed; aborting
+2026-05-19 05:27:05,998 [INFO] ============================================================
+2026-05-19 05:27:05,998 [INFO] Portugal training-set extension via ICNF + ERA5-Land
+2026-05-19 05:27:05,998 [INFO] ============================================================
+2026-05-19 05:27:05,998 [INFO] Started at 2026-05-19T05:27:05.998029
+2026-05-19 05:27:05,998 [INFO] Target years: [2017, 2018, 2019, 2020]
+2026-05-19 05:27:05,999 [INFO] Target samples: 10000
+2026-05-19 05:27:05,999 [INFO] 
+Step 1: download ICNF CSVs
+2026-05-19 05:27:06,149 [INFO]   2017: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\icnf_download\icnf_2017.csv
+2026-05-19 05:27:06,149 [INFO]   2018: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\icnf_download\icnf_2018.csv
+2026-05-19 05:27:06,149 [INFO]   2019: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\icnf_download\icnf_2019.csv
+2026-05-19 05:27:06,150 [INFO]   2020: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\icnf_download\icnf_2020.csv
+2026-05-19 05:27:06,150 [INFO] 
+Step 2: parse ICNF CSVs
+2026-05-19 05:27:08,076 [INFO]   icnf_2017.csv: 21006 rows, columns: ['id', 'DISTRITO', 'TIPO', 'ANO', 'AREAPOV', 'AREAMATO', 'AREAAGRIC', 'AREATOTAL']...
+2026-05-19 05:27:08,230 [INFO]   icnf_2018.csv: 12274 rows, columns: ['id', 'DISTRITO', 'TIPO', 'ANO', 'AREAPOV', 'AREAMATO', 'AREAAGRIC', 'AREATOTAL']...
+2026-05-19 05:27:08,381 [INFO]   icnf_2019.csv: 10832 rows, columns: ['id', 'DISTRITO', 'TIPO', 'ANO', 'AREAPOV', 'AREAMATO', 'AREAAGRIC', 'AREATOTAL']...
+2026-05-19 05:27:08,522 [INFO]   icnf_2020.csv: 9619 rows, columns: ['id', 'DISTRITO', 'TIPO', 'ANO', 'AREAPOV', 'AREAMATO', 'AREAAGRIC', 'AREATOTAL']...
+2026-05-19 05:27:08,566 [INFO] Combined ICNF: 53731 rows
+2026-05-19 05:27:08,567 [INFO]   Using lat='Y', lon='X', date='DATAALERTA', area='AREAPOV'
+2026-05-19 05:27:08,603 [INFO]   After dropping incomplete rows: 53731 / 53731
+2026-05-19 05:27:08,605 [INFO]   Coordinates look projected (not degrees); reprojecting to WGS84 lat/lon
+2026-05-19 05:27:08,726 [INFO]   Reprojection complete; sample lat/lon: 39.759, -5.713
+2026-05-19 05:27:08,727 [INFO]   Within Portugal bbox: 7753
+2026-05-19 05:27:08,733 [INFO] 
+Step 3: build balanced sample
+2026-05-19 05:27:08,734 [INFO]   Fire-season fire events: 4851
+2026-05-19 05:27:08,735 [WARNING] Requested 5000 fire samples but only 4851 fire-season events available; using all of them
+2026-05-19 05:27:09,251 [INFO]   Generated 5000 no-fire rows after 5000 attempts
+2026-05-19 05:27:09,260 [INFO]   Total samples (before weather extraction): 9851
+2026-05-19 05:27:09,260 [INFO] 
+Step 4: download ERA5-Land weather
+2026-05-19 05:27:09,959 [INFO] [2026-05-14T00:00:00Z] Upcoming essential maintenance sessions on Data Stores underlying infrastructure on 19 May. Service disruption expected. For further details, please [visit our forum announcement](https://forum.ecmwf.int/t/upcoming-essential-maintenance-sessions-on-data-stores-underlying-infrastructure/14954).
+2026-05-19 05:27:09,960 [INFO] CDS client initialised
+2026-05-19 05:27:09,961 [INFO]   2017: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\era5_download\era5_land_portugal_2017.nc
+2026-05-19 05:27:09,961 [INFO]   2018: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\era5_download\era5_land_portugal_2018.nc
+2026-05-19 05:27:09,962 [INFO]   2019: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\era5_download\era5_land_portugal_2019.nc
+2026-05-19 05:27:09,962 [INFO]   2020: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\era5_download\era5_land_portugal_2020.nc
+2026-05-19 05:27:09,962 [INFO] 
+Step 5: extract weather at each sample point
+2026-05-19 05:27:10,157 [INFO]   Opening 4 NetCDF files...
+2026-05-19 05:27:10,399 [ERROR]   Could not open ERA5 NetCDFs: found the following matches with the input file in xarray's IO backends: ['netcdf4', 'h5netcdf']. But their dependencies may not be installed, see:
+https://docs.xarray.dev/en/stable/user-guide/io.html 
+https://docs.xarray.dev/en/stable/getting-started-guide/installing.html
+2026-05-19 05:27:10,400 [ERROR] Weather extraction failed; aborting
+2026-05-19 05:28:09,677 [INFO] ============================================================
+2026-05-19 05:28:09,678 [INFO] Portugal training-set extension via ICNF + ERA5-Land
+2026-05-19 05:28:09,678 [INFO] ============================================================
+2026-05-19 05:28:09,678 [INFO] Started at 2026-05-19T05:28:09.678957
+2026-05-19 05:28:09,678 [INFO] Target years: [2017, 2018, 2019, 2020]
+2026-05-19 05:28:09,679 [INFO] Target samples: 10000
+2026-05-19 05:28:09,679 [INFO] 
+Step 1: download ICNF CSVs
+2026-05-19 05:28:09,802 [INFO]   2017: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\icnf_download\icnf_2017.csv
+2026-05-19 05:28:09,802 [INFO]   2018: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\icnf_download\icnf_2018.csv
+2026-05-19 05:28:09,802 [INFO]   2019: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\icnf_download\icnf_2019.csv
+2026-05-19 05:28:09,803 [INFO]   2020: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\icnf_download\icnf_2020.csv
+2026-05-19 05:28:09,803 [INFO] 
+Step 2: parse ICNF CSVs
+2026-05-19 05:28:10,512 [INFO]   icnf_2017.csv: 21006 rows, columns: ['id', 'DISTRITO', 'TIPO', 'ANO', 'AREAPOV', 'AREAMATO', 'AREAAGRIC', 'AREATOTAL']...
+2026-05-19 05:28:10,670 [INFO]   icnf_2018.csv: 12274 rows, columns: ['id', 'DISTRITO', 'TIPO', 'ANO', 'AREAPOV', 'AREAMATO', 'AREAAGRIC', 'AREATOTAL']...
+2026-05-19 05:28:10,824 [INFO]   icnf_2019.csv: 10832 rows, columns: ['id', 'DISTRITO', 'TIPO', 'ANO', 'AREAPOV', 'AREAMATO', 'AREAAGRIC', 'AREATOTAL']...
+2026-05-19 05:28:10,958 [INFO]   icnf_2020.csv: 9619 rows, columns: ['id', 'DISTRITO', 'TIPO', 'ANO', 'AREAPOV', 'AREAMATO', 'AREAAGRIC', 'AREATOTAL']...
+2026-05-19 05:28:10,979 [INFO] Combined ICNF: 53731 rows
+2026-05-19 05:28:10,979 [INFO]   Using lat='Y', lon='X', date='DATAALERTA', area='AREAPOV'
+2026-05-19 05:28:10,999 [INFO]   After dropping incomplete rows: 53731 / 53731
+2026-05-19 05:28:11,000 [INFO]   Coordinates look projected (not degrees); reprojecting to WGS84 lat/lon
+2026-05-19 05:28:11,068 [INFO]   Reprojection complete; sample lat/lon: 39.759, -5.713
+2026-05-19 05:28:11,070 [INFO]   Within Portugal bbox: 7753
+2026-05-19 05:28:11,075 [INFO] 
+Step 3: build balanced sample
+2026-05-19 05:28:11,077 [INFO]   Fire-season fire events: 4851
+2026-05-19 05:28:11,077 [WARNING] Requested 5000 fire samples but only 4851 fire-season events available; using all of them
+2026-05-19 05:28:11,585 [INFO]   Generated 5000 no-fire rows after 5000 attempts
+2026-05-19 05:28:11,595 [INFO]   Total samples (before weather extraction): 9851
+2026-05-19 05:28:11,595 [INFO] 
+Step 4: download ERA5-Land weather
+2026-05-19 05:28:12,257 [INFO] [2026-05-14T00:00:00Z] Upcoming essential maintenance sessions on Data Stores underlying infrastructure on 19 May. Service disruption expected. For further details, please [visit our forum announcement](https://forum.ecmwf.int/t/upcoming-essential-maintenance-sessions-on-data-stores-underlying-infrastructure/14954).
+2026-05-19 05:28:12,257 [INFO] CDS client initialised
+2026-05-19 05:28:12,258 [INFO]   2017: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\era5_download\era5_land_portugal_2017.nc
+2026-05-19 05:28:12,258 [INFO]   2018: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\era5_download\era5_land_portugal_2018.nc
+2026-05-19 05:28:12,258 [INFO]   2019: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\era5_download\era5_land_portugal_2019.nc
+2026-05-19 05:28:12,259 [INFO]   2020: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\era5_download\era5_land_portugal_2020.nc
+2026-05-19 05:28:12,259 [INFO] 
+Step 5: extract weather at each sample point
+2026-05-19 05:28:12,419 [INFO]   Opening 4 NetCDF files...
+2026-05-19 05:28:12,444 [ERROR]   Could not open ERA5 NetCDFs: found the following matches with the input file in xarray's IO backends: ['netcdf4', 'h5netcdf']. But their dependencies may not be installed, see:
+https://docs.xarray.dev/en/stable/user-guide/io.html 
+https://docs.xarray.dev/en/stable/getting-started-guide/installing.html
+2026-05-19 05:28:12,445 [ERROR] Weather extraction failed; aborting
+2026-05-19 05:30:19,499 [INFO] ============================================================
+2026-05-19 05:30:19,500 [INFO] Portugal training-set extension via ICNF + ERA5-Land
+2026-05-19 05:30:19,500 [INFO] ============================================================
+2026-05-19 05:30:19,501 [INFO] Started at 2026-05-19T05:30:19.501885
+2026-05-19 05:30:19,501 [INFO] Target years: [2017, 2018, 2019, 2020]
+2026-05-19 05:30:19,501 [INFO] Target samples: 10000
+2026-05-19 05:30:19,501 [INFO] 
+Step 1: download ICNF CSVs
+2026-05-19 05:30:19,673 [INFO]   2017: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\icnf_download\icnf_2017.csv
+2026-05-19 05:30:19,673 [INFO]   2018: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\icnf_download\icnf_2018.csv
+2026-05-19 05:30:19,674 [INFO]   2019: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\icnf_download\icnf_2019.csv
+2026-05-19 05:30:19,674 [INFO]   2020: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\icnf_download\icnf_2020.csv
+2026-05-19 05:30:19,674 [INFO] 
+Step 2: parse ICNF CSVs
+2026-05-19 05:30:20,809 [INFO]   icnf_2017.csv: 21006 rows, columns: ['id', 'DISTRITO', 'TIPO', 'ANO', 'AREAPOV', 'AREAMATO', 'AREAAGRIC', 'AREATOTAL']...
+2026-05-19 05:30:20,974 [INFO]   icnf_2018.csv: 12274 rows, columns: ['id', 'DISTRITO', 'TIPO', 'ANO', 'AREAPOV', 'AREAMATO', 'AREAAGRIC', 'AREATOTAL']...
+2026-05-19 05:30:21,123 [INFO]   icnf_2019.csv: 10832 rows, columns: ['id', 'DISTRITO', 'TIPO', 'ANO', 'AREAPOV', 'AREAMATO', 'AREAAGRIC', 'AREATOTAL']...
+2026-05-19 05:30:21,256 [INFO]   icnf_2020.csv: 9619 rows, columns: ['id', 'DISTRITO', 'TIPO', 'ANO', 'AREAPOV', 'AREAMATO', 'AREAAGRIC', 'AREATOTAL']...
+2026-05-19 05:30:21,291 [INFO] Combined ICNF: 53731 rows
+2026-05-19 05:30:21,292 [INFO]   Using lat='Y', lon='X', date='DATAALERTA', area='AREAPOV'
+2026-05-19 05:30:21,331 [INFO]   After dropping incomplete rows: 53731 / 53731
+2026-05-19 05:30:21,338 [INFO]   Coordinates look projected (not degrees); reprojecting to WGS84 lat/lon
+2026-05-19 05:30:21,565 [INFO]   Reprojection complete; sample lat/lon: 39.759, -5.713
+2026-05-19 05:30:21,567 [INFO]   Within Portugal bbox: 7753
+2026-05-19 05:30:21,573 [INFO] 
+Step 3: build balanced sample
+2026-05-19 05:30:21,576 [INFO]   Fire-season fire events: 4851
+2026-05-19 05:30:21,576 [WARNING] Requested 5000 fire samples but only 4851 fire-season events available; using all of them
+2026-05-19 05:30:22,080 [INFO]   Generated 5000 no-fire rows after 5000 attempts
+2026-05-19 05:30:22,090 [INFO]   Total samples (before weather extraction): 9851
+2026-05-19 05:30:22,090 [INFO] 
+Step 4: download ERA5-Land weather
+2026-05-19 05:30:22,813 [INFO] [2026-05-14T00:00:00Z] Upcoming essential maintenance sessions on Data Stores underlying infrastructure on 19 May. Service disruption expected. For further details, please [visit our forum announcement](https://forum.ecmwf.int/t/upcoming-essential-maintenance-sessions-on-data-stores-underlying-infrastructure/14954).
+2026-05-19 05:30:22,814 [INFO] CDS client initialised
+2026-05-19 05:30:22,814 [INFO]   2017: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\era5_download\era5_land_portugal_2017.nc
+2026-05-19 05:30:22,814 [INFO]   2018: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\era5_download\era5_land_portugal_2018.nc
+2026-05-19 05:30:22,815 [INFO]   2019: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\era5_download\era5_land_portugal_2019.nc
+2026-05-19 05:30:22,815 [INFO]   2020: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\era5_download\era5_land_portugal_2020.nc
+2026-05-19 05:30:22,815 [INFO] 
+Step 5: extract weather at each sample point
+2026-05-19 05:30:23,161 [INFO]   Opening 4 NetCDF files...
+2026-05-19 05:30:24,162 [ERROR]   Could not open ERA5 NetCDFs: chunk manager 'dask' is not available. Please make sure 'dask' is installed and importable.
+2026-05-19 05:30:24,163 [ERROR] Weather extraction failed; aborting
+2026-05-19 05:30:49,780 [INFO] ============================================================
+2026-05-19 05:30:49,780 [INFO] Portugal training-set extension via ICNF + ERA5-Land
+2026-05-19 05:30:49,780 [INFO] ============================================================
+2026-05-19 05:30:49,780 [INFO] Started at 2026-05-19T05:30:49.780285
+2026-05-19 05:30:49,781 [INFO] Target years: [2017, 2018, 2019, 2020]
+2026-05-19 05:30:49,781 [INFO] Target samples: 10000
+2026-05-19 05:30:49,781 [INFO] 
+Step 1: download ICNF CSVs
+2026-05-19 05:30:49,909 [INFO]   2017: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\icnf_download\icnf_2017.csv
+2026-05-19 05:30:49,909 [INFO]   2018: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\icnf_download\icnf_2018.csv
+2026-05-19 05:30:49,909 [INFO]   2019: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\icnf_download\icnf_2019.csv
+2026-05-19 05:30:49,910 [INFO]   2020: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\icnf_download\icnf_2020.csv
+2026-05-19 05:30:49,910 [INFO] 
+Step 2: parse ICNF CSVs
+2026-05-19 05:30:50,617 [INFO]   icnf_2017.csv: 21006 rows, columns: ['id', 'DISTRITO', 'TIPO', 'ANO', 'AREAPOV', 'AREAMATO', 'AREAAGRIC', 'AREATOTAL']...
+2026-05-19 05:30:50,783 [INFO]   icnf_2018.csv: 12274 rows, columns: ['id', 'DISTRITO', 'TIPO', 'ANO', 'AREAPOV', 'AREAMATO', 'AREAAGRIC', 'AREATOTAL']...
+2026-05-19 05:30:50,929 [INFO]   icnf_2019.csv: 10832 rows, columns: ['id', 'DISTRITO', 'TIPO', 'ANO', 'AREAPOV', 'AREAMATO', 'AREAAGRIC', 'AREATOTAL']...
+2026-05-19 05:30:51,064 [INFO]   icnf_2020.csv: 9619 rows, columns: ['id', 'DISTRITO', 'TIPO', 'ANO', 'AREAPOV', 'AREAMATO', 'AREAAGRIC', 'AREATOTAL']...
+2026-05-19 05:30:51,086 [INFO] Combined ICNF: 53731 rows
+2026-05-19 05:30:51,086 [INFO]   Using lat='Y', lon='X', date='DATAALERTA', area='AREAPOV'
+2026-05-19 05:30:51,104 [INFO]   After dropping incomplete rows: 53731 / 53731
+2026-05-19 05:30:51,106 [INFO]   Coordinates look projected (not degrees); reprojecting to WGS84 lat/lon
+2026-05-19 05:30:51,173 [INFO]   Reprojection complete; sample lat/lon: 39.759, -5.713
+2026-05-19 05:30:51,175 [INFO]   Within Portugal bbox: 7753
+2026-05-19 05:30:51,180 [INFO] 
+Step 3: build balanced sample
+2026-05-19 05:30:51,182 [INFO]   Fire-season fire events: 4851
+2026-05-19 05:30:51,182 [WARNING] Requested 5000 fire samples but only 4851 fire-season events available; using all of them
+2026-05-19 05:30:51,679 [INFO]   Generated 5000 no-fire rows after 5000 attempts
+2026-05-19 05:30:51,688 [INFO]   Total samples (before weather extraction): 9851
+2026-05-19 05:30:51,689 [INFO] 
+Step 4: download ERA5-Land weather
+2026-05-19 05:30:52,316 [INFO] [2026-05-14T00:00:00Z] Upcoming essential maintenance sessions on Data Stores underlying infrastructure on 19 May. Service disruption expected. For further details, please [visit our forum announcement](https://forum.ecmwf.int/t/upcoming-essential-maintenance-sessions-on-data-stores-underlying-infrastructure/14954).
+2026-05-19 05:30:52,316 [INFO] CDS client initialised
+2026-05-19 05:30:52,317 [INFO]   2017: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\era5_download\era5_land_portugal_2017.nc
+2026-05-19 05:30:52,317 [INFO]   2018: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\era5_download\era5_land_portugal_2018.nc
+2026-05-19 05:30:52,317 [INFO]   2019: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\era5_download\era5_land_portugal_2019.nc
+2026-05-19 05:30:52,318 [INFO]   2020: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\era5_download\era5_land_portugal_2020.nc
+2026-05-19 05:30:52,318 [INFO] 
+Step 5: extract weather at each sample point
+2026-05-19 05:30:52,481 [INFO]   Opening 4 NetCDF files...
+2026-05-19 05:30:56,293 [INFO]   Variables: ['t2m', 'd2m', 'u10', 'v10', 'tp']
+2026-05-19 05:30:56,921 [INFO]   Extracted weather for 0 / 9851 rows
+2026-05-19 05:30:56,926 [ERROR] Weather extraction failed; aborting
+2026-05-19 05:33:59,561 [INFO] ============================================================
+2026-05-19 05:33:59,561 [INFO] Portugal training-set extension via ICNF + ERA5-Land
+2026-05-19 05:33:59,561 [INFO] ============================================================
+2026-05-19 05:33:59,561 [INFO] Started at 2026-05-19T05:33:59.561279
+2026-05-19 05:33:59,561 [INFO] Target years: [2017, 2018, 2019, 2020]
+2026-05-19 05:33:59,562 [INFO] Target samples: 10000
+2026-05-19 05:33:59,562 [INFO] 
+Step 1: download ICNF CSVs
+2026-05-19 05:33:59,696 [INFO]   2017: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\icnf_download\icnf_2017.csv
+2026-05-19 05:33:59,697 [INFO]   2018: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\icnf_download\icnf_2018.csv
+2026-05-19 05:33:59,697 [INFO]   2019: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\icnf_download\icnf_2019.csv
+2026-05-19 05:33:59,697 [INFO]   2020: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\icnf_download\icnf_2020.csv
+2026-05-19 05:33:59,697 [INFO] 
+Step 2: parse ICNF CSVs
+2026-05-19 05:34:00,401 [INFO]   icnf_2017.csv: 21006 rows, columns: ['id', 'DISTRITO', 'TIPO', 'ANO', 'AREAPOV', 'AREAMATO', 'AREAAGRIC', 'AREATOTAL']...
+2026-05-19 05:34:00,571 [INFO]   icnf_2018.csv: 12274 rows, columns: ['id', 'DISTRITO', 'TIPO', 'ANO', 'AREAPOV', 'AREAMATO', 'AREAAGRIC', 'AREATOTAL']...
+2026-05-19 05:34:00,717 [INFO]   icnf_2019.csv: 10832 rows, columns: ['id', 'DISTRITO', 'TIPO', 'ANO', 'AREAPOV', 'AREAMATO', 'AREAAGRIC', 'AREATOTAL']...
+2026-05-19 05:34:00,854 [INFO]   icnf_2020.csv: 9619 rows, columns: ['id', 'DISTRITO', 'TIPO', 'ANO', 'AREAPOV', 'AREAMATO', 'AREAAGRIC', 'AREATOTAL']...
+2026-05-19 05:34:00,875 [INFO] Combined ICNF: 53731 rows
+2026-05-19 05:34:00,875 [INFO]   Using lat='Y', lon='X', date='DATAALERTA', area='AREAPOV'
+2026-05-19 05:34:00,900 [INFO]   After dropping incomplete rows: 53731 / 53731
+2026-05-19 05:34:00,902 [INFO]   Coordinates look projected (not degrees); reprojecting to WGS84 lat/lon
+2026-05-19 05:34:00,969 [INFO]   Reprojection complete; sample lat/lon: 39.759, -5.713
+2026-05-19 05:34:00,971 [INFO]   Within Portugal bbox: 7753
+2026-05-19 05:34:00,976 [INFO] 
+Step 3: build balanced sample
+2026-05-19 05:34:00,978 [INFO]   Fire-season fire events: 4851
+2026-05-19 05:34:00,978 [WARNING] Requested 5000 fire samples but only 4851 fire-season events available; using all of them
+2026-05-19 05:34:01,471 [INFO]   Generated 5000 no-fire rows after 5000 attempts
+2026-05-19 05:34:01,480 [INFO]   Total samples (before weather extraction): 9851
+2026-05-19 05:34:01,480 [INFO] 
+Step 4: download ERA5-Land weather
+2026-05-19 05:34:02,130 [INFO] [2026-05-14T00:00:00Z] Upcoming essential maintenance sessions on Data Stores underlying infrastructure on 19 May. Service disruption expected. For further details, please [visit our forum announcement](https://forum.ecmwf.int/t/upcoming-essential-maintenance-sessions-on-data-stores-underlying-infrastructure/14954).
+2026-05-19 05:34:02,130 [INFO] CDS client initialised
+2026-05-19 05:34:02,131 [INFO]   2017: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\era5_download\era5_land_portugal_2017.nc
+2026-05-19 05:34:02,131 [INFO]   2018: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\era5_download\era5_land_portugal_2018.nc
+2026-05-19 05:34:02,131 [INFO]   2019: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\era5_download\era5_land_portugal_2019.nc
+2026-05-19 05:34:02,132 [INFO]   2020: cached at C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\era5_download\era5_land_portugal_2020.nc
+2026-05-19 05:34:02,132 [INFO] 
+Step 5: extract weather at each sample point
+2026-05-19 05:34:02,294 [INFO]   Opening 4 NetCDF files...
+2026-05-19 05:34:03,948 [INFO]   Variables: ['t2m', 'd2m', 'u10', 'v10', 'tp']
+2026-05-19 05:34:03,948 [INFO]   Dimensions: {'valid_time': 612, 'latitude': 58, 'longitude': 38}
+2026-05-19 05:34:03,949 [INFO]   Coordinates: ['number', 'valid_time', 'latitude', 'longitude', 'expver']
+2026-05-19 05:34:03,949 [INFO]   Using time coordinate: 'valid_time'
+2026-05-19 05:34:03,949 [INFO]   Using lat='latitude', lon='longitude'
+2026-05-19 05:34:03,949 [INFO]   Variable map: {'t2m': 't2m', 'd2m': 'd2m', 'u10': 'u10', 'v10': 'v10', 'tp': 'tp'}
+2026-05-19 05:34:03,967 [INFO]   ERA5 time range: 2017-05-01 12:00:00 to 2020-09-30 12:00:00
+2026-05-19 05:34:04,173 [INFO]   Extracted weather for 8837 / 9851 rows
+2026-05-19 05:34:04,181 [INFO] 
+Step 6: compute FWI components
+2026-05-19 05:34:04,654 [INFO] 
+Step 7: write combined CSV
+2026-05-19 05:34:04,768 [INFO] Wrote 8837 rows -> C:\Users\hp\Desktop\Computers shared storage\Desktop\Forest_Fire_version_1.0\forest-fire-fullstack\data\icnf_portugal_extended.csv
+2026-05-19 05:34:04,769 [INFO] 
+============================================================
+2026-05-19 05:34:04,769 [INFO] ICNF extension complete
+2026-05-19 05:34:04,769 [INFO] Next steps:
+2026-05-19 05:34:04,769 [INFO]   1. Concatenate this CSV with existing UCI + Algerian
+2026-05-19 05:34:04,769 [INFO]      training data
+2026-05-19 05:34:04,770 [INFO]   2. Retrain RF, XGB, NN using existing training scripts
+2026-05-19 05:34:04,770 [INFO]   3. Re-run seven-layer evaluation framework
+2026-05-19 05:34:04,770 [INFO] ============================================================
