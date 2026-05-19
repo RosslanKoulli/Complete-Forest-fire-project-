@@ -92,7 +92,7 @@ app = FastAPI(
 # typical production patterns; expand it for your actual deployment.
 
 ALLOWED_ORIGINS = [
-    'http://localhost:3000',          # Next.js dev server
+    'http://localhost:3000',          # dev server
     'http://127.0.0.1:3000',
     'http://localhost:3001',          # Alternate dev port
     # Add your production frontend URL here, e.g.:
