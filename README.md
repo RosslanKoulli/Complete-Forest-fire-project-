@@ -302,12 +302,6 @@ pip install "numpy<2"
 
 Run `pip uninstall numpy` repeatedly until pip says "not installed". Python can install the same package in multiple locations and each `uninstall` only finds one copy.
 
-### `ssh: Permission denied`
-
-The username, password, or the auth method is wrong. Linux usernames are case-sensitive and almost always lowercase. If your friend handed you a six-word hyphenated phrase like `morbidly-walk-impure-disrupt-gore-last`, double-check it's an SSH password rather than a Tailscale auth key (Tailscale uses that exact format).
-
-After three failed attempts the server will close the connection. Wait a minute before retrying, since `fail2ban` may also rate-limit your IP for several minutes.
-
 ### Backend starts but the map page returns 404
 
 The static-file mount is missing the frontend directory. Check that `backend/main.py` finds `frontend/` at `FRONTEND_DIR = Path(__file__).resolve().parent.parent / 'frontend'`. If you've copied only `backend/` to the server, copy `frontend/` too.
